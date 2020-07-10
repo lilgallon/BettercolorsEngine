@@ -11,6 +11,14 @@
 A hacking engine that does the annoying part for you. Designed to work with any version of forge.
 This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/Bettercolors).
 
+## Support
+
+- Forge 1.16.1: [x]
+- Forge 1.15.2: [ ]
+- Forge 1.14.4: [ ]
+- Forge 1.13.2: [ ]
+- Forge 1.12.2: [ ]
+- Forge 1.8.9: [ ]
 
 ## Why?
 
