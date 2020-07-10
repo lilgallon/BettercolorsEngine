@@ -3,6 +3,7 @@
 </h3>
 
 <p align="center">
+  <a href="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"><img alt="Release" src="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"/></a>
     <a href="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"><img alt="Open issues" src="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"/></a>
     <a href="https://img.shields.io/github/issues-closed-raw/n3roo/bettercolorsengine.svg"><img alt="Closed issues" src="https://img.shields.io/github/issues-closed-raw/n3roo/bettercolorsengine.svg"/></a>
     <a href="https://img.shields.io/github/issues-pr-closed/n3roo/bettercolorsengine.svg"><img alt="Closed pull requests" src="https://img.shields.io/github/issues-pr-closed/n3roo/bettercolorsengine.svg"/></a>
@@ -18,7 +19,7 @@ This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/B
 - Forge 1.14.4: :x: *(not tested yet)*
 - Forge 1.13.2: :x: *(not tested yet)*
 - Forge 1.12.2: :x: *(not tested yet)*
-- Forge 1.8.9: *in progress*
+- Forge 1.8.9: :x: *(in progress)*
 
 ## Why?
 
