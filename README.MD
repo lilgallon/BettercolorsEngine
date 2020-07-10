@@ -13,12 +13,12 @@ This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/B
 
 ## Support
 
-- Forge 1.16.1: [x]
-- Forge 1.15.2: [ ]
-- Forge 1.14.4: [ ]
-- Forge 1.13.2: [ ]
-- Forge 1.12.2: [ ]
-- Forge 1.8.9: [ ]
+- Forge 1.16.1: :heavy_check_mark:
+- Forge 1.15.2: :x: *(not tested yet)*
+- Forge 1.14.4: :x: *(not tested yet)*
+- Forge 1.13.2: :x: *(not tested yet)*
+- Forge 1.12.2: :x: *(not tested yet)*
+- Forge 1.8.9: *in progress*
 
 ## Why?
 
