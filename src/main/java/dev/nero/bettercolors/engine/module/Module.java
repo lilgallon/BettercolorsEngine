@@ -22,7 +22,7 @@ import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
 import dev.nero.bettercolors.engine.view.Window;
-import dev.nero.bettercolors.engine.wrapper.Wrapper;
+import dev.nero.bettercolors.mod.wrapper.Wrapper;
 import net.minecraft.entity.Entity;
 
 import java.awt.*;
