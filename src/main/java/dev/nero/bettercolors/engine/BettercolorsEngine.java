@@ -22,7 +22,6 @@ import dev.nero.bettercolors.engine.module.Module;
 import dev.nero.bettercolors.engine.io.Filer;
 import dev.nero.bettercolors.engine.io.SettingsUtils;
 import dev.nero.bettercolors.engine.utils.KeysManager;
-import dev.nero.bettercolors.mod.modules.*;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.version.Version;
@@ -246,7 +245,7 @@ public class BettercolorsEngine {
                         Boolean.class,
                         Map.class).newInstance(
                         toggleKey,
-                        Boolean.parseBoolean(options.get(AimAssistance.class.getSimpleName())),
+                        Boolean.parseBoolean(options.get(moduleClass.getSimpleName())),
                         options
                 );
 
@@ -265,7 +264,7 @@ public class BettercolorsEngine {
                             Integer.class,
                             Boolean.class).newInstance(
                             toggleKey,
-                            Boolean.parseBoolean(options.get(AimAssistance.class.getSimpleName()))
+                            Boolean.parseBoolean(options.get(moduleClass.getSimpleName()))
                     );
 
                     this.modules.add(module);
