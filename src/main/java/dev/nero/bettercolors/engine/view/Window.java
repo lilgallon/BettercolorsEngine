@@ -18,6 +18,7 @@
 
 package dev.nero.bettercolors.engine.view;
 
+import dev.nero.bettercolors.engine.BettercolorsEngine;
 import dev.nero.bettercolors.engine.io.Filer;
 import dev.nero.bettercolors.engine.io.SettingsUtils;
 import dev.nero.bettercolors.engine.module.Module;
@@ -601,9 +602,7 @@ public class Window extends JFrame{
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if(dialog.isVisible()) {
-                        int code;
-
-                        code = Keymap.map(e.getKeyCode());
+                        int code = Keymap.map(e.getKeyCode(), Reference.FORGE_API == BettercolorsEngine.FORGE.NEW);
 
                         if (code == -2) {
                             JOptionPane.showMessageDialog(Window.instance, "This key is not supported, please use an other one");

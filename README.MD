@@ -2,8 +2,53 @@
   <img src=".github/header_engine.png">
 </h3>
 
-You are on the 1.8 branch. Here are the things that are different from other versions:
+<p align="center">
+  <a href="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"><img alt="Release" src="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"/></a>
+    <a href="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"><img alt="Open issues" src="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"/></a>
+</p>
 
-- Keymap (uses GWT key codes since 1.13)
+<p align="center">
+  <a href="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.8/badge.svg"><img alt="Build Status" src="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.8/badge.svg" /></a>
+  <a href="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.16/badge.svg"><img alt="Build Status" src="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.16/badge.svg" /></a>
+</p>
 
-**Documentation & details**: Go to the [master branch](https://github.com/N3ROO/BettercolorsEngine)
+A hacking engine that does the annoying part for you. Designed to work with any version of forge.
+This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/Bettercolors).
+
+## Support
+
+- **Forge < 1.13**: Use [1.8 version](https://github.com/N3ROO/BettercolorsEngine/tree/1.8)
+- **Forge >= 1.13**: Use [1.16 version](https://github.com/N3ROO/BettercolorsEngine/tree/1.16)
+
+That's because key events changed with the new forge design introduced in Forge 1.13.
+
+## Why?
+
+With that engine, the only thing that you need to do is to implement your modules (aimbot, autoclick, whatever). Then, the rest
+is handled by the engine (window, parameters, file saving, version checking, and so on).
+
+Here is what the automatically generated window looks like:
+
+<p align="center">
+    <img alt="features" src="https://raw.githubusercontent.com/N3ROO/Bettercolors/MC_1.8.9/.github/features_main_crop500.png" />
+</p>
+
+## How to use it
+
+- Download the files (`dev.nero.bettercolors.engine`) and paste them in your project *(a maven package will be published later on)*
+- Create the main class to register your mod with forge
+- Start the engine by giving some information about your mod and the modules that you created
+- Write some modules by extending the Module class
+- That's it. The engine is designed to work for any forge version from 1.8.9 to 1.16.2
+
+*You also can check [Bettercolors](https://github.com/N3ROO/Bettercolors) 7.x.x when it will be released, it will use the engine.*
+
+## Documentation
+
+*Coming for the first stable release*.
+Check [github projects](https://github.com/N3ROO/BettercolorsEngine/projects) to see the roadmap.
+
+## Credits & Acknowledgements
+
+- [@N3ROO](https://github.com/N3ROO)  - *Main developer*
+- [@shorebre4k](https://github.com/shorebre4k) - *Keymap utility class*
