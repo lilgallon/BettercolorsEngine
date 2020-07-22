@@ -605,7 +605,6 @@ public class Window extends JFrame{
 
                         code = Keymap.map(e.getKeyCode());
 
-
                         if (code == -2) {
                             JOptionPane.showMessageDialog(Window.instance, "This key is not supported, please use an other one");
                         } else {
