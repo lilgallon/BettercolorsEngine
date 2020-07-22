@@ -17,9 +17,8 @@ This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/B
 
 ## Support
 
-- **Forge < 1.13**: Use [1.8 version](https://github.com/N3ROO/BettercolorsEngine/tree/1.8)
-- **Forge >= 1.13**: Use [1.16 version](https://github.com/N3ROO/BettercolorsEngine/tree/1.16)
-
+- **Forge < 1.13**: Use [Old forge (OF) version](https://github.com/N3ROO/BettercolorsEngine/tree/OF)
+- **Forge >= 1.13**: Use [New forge (NF) version](https://github.com/N3ROO/BettercolorsEngine/tree/NF)
 That's because key events changed with the new forge design introduced in Forge 1.13.
 
 ## Why?
