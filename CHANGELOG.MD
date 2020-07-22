@@ -25,3 +25,7 @@ Utility:
 - `isInSameTeam` That method is available to modules to compare the given entity with the player and returns if they're in the same team
 - `isInGui` That method is available to modules and returns true whether the player is in a GUI
 - `KEY_HANDLER` That field is available to module to know if the user is attacking or using an item (it takes the key the user binded to attack and use)
+
+**Version 0.2.0**
+
+Only one version of the Engine for any Forge Version (0.1.0 had two differents versions: OF and NF for respectively the old forge and the new forge design)
