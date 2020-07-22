@@ -5,8 +5,11 @@
 <p align="center">
   <a href="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"><img alt="Release" src="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"/></a>
     <a href="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"><img alt="Open issues" src="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"/></a>
-    <a href="https://img.shields.io/github/issues-closed-raw/n3roo/bettercolorsengine.svg"><img alt="Closed issues" src="https://img.shields.io/github/issues-closed-raw/n3roo/bettercolorsengine.svg"/></a>
-    <a href="https://img.shields.io/github/issues-pr-closed/n3roo/bettercolorsengine.svg"><img alt="Closed pull requests" src="https://img.shields.io/github/issues-pr-closed/n3roo/bettercolorsengine.svg"/></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.8/badge.svg"><img alt="Build Status" src="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.8/badge.svg" /></a>
+  <a href="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.16/badge.svg"><img alt="Build Status" src="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.16/badge.svg" /></a>
 </p>
 
 A hacking engine that does the annoying part for you. Designed to work with any version of forge.
@@ -40,8 +43,6 @@ Here is what the automatically generated window looks like:
 - Write some modules by extending the Module class
 - That's it. The engine is designed to work for any forge version from 1.8.9 to 1.16.2
 
-**There are some examples on github, check the branches `example-1.8.9` or `example-1.16.2`.**
-
 *You also can check [Bettercolors](https://github.com/N3ROO/Bettercolors) 7.x.x when it will be released, it will use the engine.*
 
 ## Documentation
@@ -52,4 +53,4 @@ Check [github projects](https://github.com/N3ROO/BettercolorsEngine/projects) to
 ## Credits & Acknowledgements
 
 - [@N3ROO](https://github.com/N3ROO)  - *Main developer*
-- [@shorebre4k](https://github.com/shorebre4k) - *Added option to change the GUI's toggle key (issue #15 & pull request #35)*
+- [@shorebre4k](https://github.com/shorebre4k) - *Keymap utility class*
