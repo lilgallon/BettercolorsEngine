@@ -2,6 +2,7 @@
 src/main/java/dev/nero/bettercolors/mod/
 src/main/resources/META-INF/
 src/main/resources/pack.mcmeta
+src/main/resources/mcmod.info
 src/test/
 #build.gradle
 gradlew
