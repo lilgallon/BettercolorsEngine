@@ -772,7 +772,7 @@ public class Window extends JFrame{
         String welcome_message = "";
         welcome_message += "Powered by Bettercolors Engine " + Reference.ENGINE_VERSION + ".\n";
         welcome_message += "Source: https://github.com/N3ROO/BettercolorsEngine\n";
-        welcome_message += "Thanks: shorebre4k, patricktelling\n";
+        welcome_message += "Thanks: shorebre4k\n";
         addText(welcome_message, true);
 
         // Write the messages if there were any pending
