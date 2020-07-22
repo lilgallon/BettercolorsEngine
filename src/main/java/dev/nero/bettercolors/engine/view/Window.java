@@ -25,8 +25,7 @@ import dev.nero.bettercolors.engine.module.Module;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
-import dev.nero.bettercolors.engine.utils.VKtoAWT;
-import dev.nero.bettercolors.engine.utils.VKtoGLFW;
+import dev.nero.bettercolors.engine.utils.Keymap;
 import dev.nero.bettercolors.engine.version.Version;
 import dev.nero.bettercolors.engine.version.VersionException;
 import dev.nero.bettercolors.engine.Reference;
@@ -603,13 +602,7 @@ public class Window extends JFrame{
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if(dialog.isVisible()) {
-                        int code;
-
-                        if (Reference.FORGE_API == BettercolorsEngine.FORGE.NEW) {
-                            code = VKtoGLFW.convertVKSwingtoGLFW(e.getKeyCode());
-                        } else {
-                            code = VKtoAWT.convertVKSwingToAWT(e.getKeyCode());
-                        }
+                        int code = Keymap.map(e.getKeyCode(), Reference.FORGE_API == BettercolorsEngine.FORGE.NEW);
 
                         if (code == -2) {
                             JOptionPane.showMessageDialog(Window.instance, "This key is not supported, please use an other one");
@@ -777,13 +770,9 @@ public class Window extends JFrame{
 
         // First message to be shown
         String welcome_message = "";
-        welcome_message += "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x\n";
-        welcome_message += "|                                                |\n";
-        welcome_message += "|       .-``'.    Bettercolors 6    .'''-.       |\n";
-        welcome_message += "|     .`   .`~     Made by N3RO     ~`.   '.     |\n";
-        welcome_message += "| _.-'     '._   github.com/N3ROO   _.'     '-._ |\n";
-        welcome_message += "|  Aknowledgements: shorebre4k & patricktelling  |\n";
-        welcome_message += "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x\n";
+        welcome_message += "Powered by Bettercolors Engine " + Reference.ENGINE_VERSION + ".\n";
+        welcome_message += "Source: https://github.com/N3ROO/BettercolorsEngine\n";
+        welcome_message += "Thanks: shorebre4k, patricktelling\n";
         addText(welcome_message, true);
 
         // Write the messages if there were any pending

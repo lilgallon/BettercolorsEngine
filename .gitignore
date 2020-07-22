@@ -3,7 +3,7 @@ src/main/java/dev/nero/bettercolors/mod/
 src/main/resources/META-INF/
 src/main/resources/pack.mcmeta
 src/test/
-build.gradle
+#build.gradle
 gradlew
 gradlew.bat
 gradle/

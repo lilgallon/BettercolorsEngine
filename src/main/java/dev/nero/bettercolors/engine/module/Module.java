@@ -18,12 +18,11 @@
 
 package dev.nero.bettercolors.engine.module;
 
+import dev.nero.bettercolors.engine.BettercolorsEngine;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
 import dev.nero.bettercolors.engine.view.Window;
-import dev.nero.bettercolors.engine.wrapper.Wrapper;
-import net.minecraft.entity.Entity;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -110,27 +109,6 @@ public abstract class Module {
     }
 
     /**
-     * @param entity the entity (can be anything).
-     * @return true if the given entity is in the same team as the player.
-     */
-    protected boolean isInSameTeam(Entity entity){
-        if(!(entity.getClass().isInstance(Wrapper.playerEntityClass)))
-            return false;
-
-        boolean same_team = false;
-        String target_tag;
-        try {
-            // Check friends / teammate
-            target_tag = Wrapper.exportTag(Wrapper.playerEntityClass.cast(entity.getClass()));
-            if (Wrapper.exportTag(Wrapper.thePlayer).equalsIgnoreCase(target_tag)) {
-                same_team = true;
-            }
-
-        } catch (Exception ignored) { }
-        return same_team;
-    }
-
-    /**
      * @param Key the Key to check the state.
      * @param state the state of the Key.
      * @return true if the [Key] is currently at the state [state].
@@ -151,23 +129,23 @@ public abstract class Module {
      * It updates the Key handler
      */
     public void updateKeyHandler(){
-        if(Wrapper.MC.gameSettings.keyBindAttack.isKeyDown() && KEY_HANDLER.get(Key.ATTACK) == KeyState.IDLE){
+        if(BettercolorsEngine.MC.gameSettings.keyBindAttack.isKeyDown() && KEY_HANDLER.get(Key.ATTACK) == KeyState.IDLE){
             KEY_HANDLER.replace(Key.ATTACK, KeyState.JUST_PRESSED);
-        }else if(Wrapper.MC.gameSettings.keyBindAttack.isKeyDown() && KEY_HANDLER.get(Key.ATTACK) == KeyState.JUST_PRESSED) {
+        }else if(BettercolorsEngine.MC.gameSettings.keyBindAttack.isKeyDown() && KEY_HANDLER.get(Key.ATTACK) == KeyState.JUST_PRESSED) {
             KEY_HANDLER.replace(Key.ATTACK, KeyState.BEING_PRESSED);
-        }else if(!Wrapper.MC.gameSettings.keyBindAttack.isKeyDown() && (KEY_HANDLER.get(Key.ATTACK) == KeyState.JUST_PRESSED || KEY_HANDLER.get(Key.ATTACK) == KeyState.BEING_PRESSED)){
+        }else if(!BettercolorsEngine.MC.gameSettings.keyBindAttack.isKeyDown() && (KEY_HANDLER.get(Key.ATTACK) == KeyState.JUST_PRESSED || KEY_HANDLER.get(Key.ATTACK) == KeyState.BEING_PRESSED)){
             KEY_HANDLER.replace(Key.ATTACK, KeyState.JUST_RELEASED);
-        } else if(!Wrapper.MC.gameSettings.keyBindAttack.isKeyDown() && KEY_HANDLER.get(Key.ATTACK) == KeyState.JUST_RELEASED){
+        } else if(!BettercolorsEngine.MC.gameSettings.keyBindAttack.isKeyDown() && KEY_HANDLER.get(Key.ATTACK) == KeyState.JUST_RELEASED){
             KEY_HANDLER.replace(Key.ATTACK, KeyState.IDLE);
         }
 
-        if(Wrapper.MC.gameSettings.keyBindUseItem.isKeyDown() && KEY_HANDLER.get(Key.USE) == KeyState.IDLE){
+        if(BettercolorsEngine.MC.gameSettings.keyBindUseItem.isKeyDown() && KEY_HANDLER.get(Key.USE) == KeyState.IDLE){
             KEY_HANDLER.replace(Key.USE, KeyState.JUST_PRESSED);
-        }else if(Wrapper.MC.gameSettings.keyBindUseItem.isKeyDown() && KEY_HANDLER.get(Key.USE) == KeyState.JUST_PRESSED) {
+        }else if(BettercolorsEngine.MC.gameSettings.keyBindUseItem.isKeyDown() && KEY_HANDLER.get(Key.USE) == KeyState.JUST_PRESSED) {
             KEY_HANDLER.replace(Key.USE, KeyState.BEING_PRESSED);
-        }else if(!Wrapper.MC.gameSettings.keyBindUseItem.isKeyDown() && (KEY_HANDLER.get(Key.USE) == KeyState.JUST_PRESSED || KEY_HANDLER.get(Key.USE) == KeyState.BEING_PRESSED)){
+        }else if(!BettercolorsEngine.MC.gameSettings.keyBindUseItem.isKeyDown() && (KEY_HANDLER.get(Key.USE) == KeyState.JUST_PRESSED || KEY_HANDLER.get(Key.USE) == KeyState.BEING_PRESSED)){
             KEY_HANDLER.replace(Key.USE, KeyState.JUST_RELEASED);
-        }else if(!Wrapper.MC.gameSettings.keyBindUseItem.isKeyDown() && KEY_HANDLER.get(Key.USE) == KeyState.JUST_RELEASED){
+        }else if(!BettercolorsEngine.MC.gameSettings.keyBindUseItem.isKeyDown() && KEY_HANDLER.get(Key.USE) == KeyState.JUST_RELEASED){
             KEY_HANDLER.replace(Key.USE, KeyState.IDLE);
         }
     }
