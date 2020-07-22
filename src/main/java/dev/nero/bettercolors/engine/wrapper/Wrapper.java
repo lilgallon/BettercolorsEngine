@@ -19,30 +19,30 @@
 package dev.nero.bettercolors.engine.wrapper;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.PlayerContainer;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ContainerPlayer;
 
 /**
  * Wrapper for Minecraft 1.16
  */
 public class Wrapper {
 
-    public final static Minecraft MC = Minecraft.getInstance();
-    public final static ClientPlayerEntity thePlayer = Minecraft.getInstance().player;
-    public final static ClientWorld theWorld = Minecraft.getInstance().world;
+    public final static Minecraft MC = Minecraft.getMinecraft();
+    public final static EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+    public final static WorldClient theWorld = Minecraft.getMinecraft().theWorld;
 
-    public final static Class<PlayerEntity> playerEntityClass = PlayerEntity.class;
+    public final static Class<EntityPlayer> playerEntityClass = EntityPlayer.class;
 
     /**
      * @param e entity.
      * @return the team tag of the entity.
      */
-    public static String exportTag(PlayerEntity e){
+    public static String exportTag(EntityPlayer e){
         String tag;
         try{
-            tag = e.getDisplayName().getUnformattedComponentText().split(e.getName().getString())[0].replace(" ","");
+            tag = e.getDisplayName().getUnformattedText().split(e.getName())[0].replace(" ","");
             tag = tag.replace("§","");
         }catch(Exception exc){
             tag = "";
@@ -55,9 +55,9 @@ public class Wrapper {
      */
     public static boolean isInGui(){
         if(Wrapper.thePlayer == null) return true;
-        return (Wrapper.thePlayer.isSleeping() ||
-                Wrapper.thePlayer.isShowDeathScreen() ||
-                !(Wrapper.thePlayer.openContainer instanceof PlayerContainer) ||
-                !MC.isGameFocused());
+        return (Wrapper.thePlayer.isPlayerSleeping() ||
+                Wrapper.thePlayer.isDead ||
+                !(Wrapper.thePlayer.openContainer instanceof ContainerPlayer) ||
+                !MC.inGameHasFocus);
     }
 }

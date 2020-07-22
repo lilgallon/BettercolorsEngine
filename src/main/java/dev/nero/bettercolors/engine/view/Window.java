@@ -25,8 +25,7 @@ import dev.nero.bettercolors.engine.module.Module;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
-import dev.nero.bettercolors.engine.utils.VKtoAWT;
-import dev.nero.bettercolors.engine.utils.VKtoGLFW;
+import dev.nero.bettercolors.engine.utils.Keymap;
 import dev.nero.bettercolors.engine.version.Version;
 import dev.nero.bettercolors.engine.version.VersionException;
 import dev.nero.bettercolors.engine.Reference;
@@ -605,11 +604,7 @@ public class Window extends JFrame{
                     if(dialog.isVisible()) {
                         int code;
 
-                        if (Reference.FORGE_API == BettercolorsEngine.FORGE.NEW) {
-                            code = VKtoGLFW.convertVKSwingtoGLFW(e.getKeyCode());
-                        } else {
-                            code = VKtoAWT.convertVKSwingToAWT(e.getKeyCode());
-                        }
+                        code = Keymap.map(e.getKeyCode());
 
                         if (code == -2) {
                             JOptionPane.showMessageDialog(Window.instance, "This key is not supported, please use an other one");

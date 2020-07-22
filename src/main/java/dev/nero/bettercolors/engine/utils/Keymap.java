@@ -19,7 +19,7 @@ package dev.nero.bettercolors.engine.utils;
 
 import java.awt.event.KeyEvent;
 
-public class VKtoAWT {
+public class Keymap {
 
     /**
      * Needs improvements!
@@ -30,7 +30,7 @@ public class VKtoAWT {
      * @param code java.awt.event.KeyEvent code
      * @return corresponding org.lwjgl.input.Keyboard, or -1 if undefined, and -2 if not supported
      */
-    public static int convertVKSwingToAWT(int code) {
+    public static int map(int code) {
         switch (code) {
             case KeyEvent.CHAR_UNDEFINED:
                 return -1;
