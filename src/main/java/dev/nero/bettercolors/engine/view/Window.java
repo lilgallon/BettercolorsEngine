@@ -18,7 +18,6 @@
 
 package dev.nero.bettercolors.engine.view;
 
-import dev.nero.bettercolors.engine.BettercolorsEngine;
 import dev.nero.bettercolors.engine.io.Filer;
 import dev.nero.bettercolors.engine.io.SettingsUtils;
 import dev.nero.bettercolors.engine.module.Module;
