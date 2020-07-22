@@ -22,7 +22,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.event.KeyEvent;
 
-public class VKtoGLFW {
+public class Keymap {
 
     /**
      * All the keys listed in java.awt.event are listed here. If there
@@ -47,7 +47,7 @@ public class VKtoGLFW {
      * @param code java.awt.event.KeyEvent VK code
      * @return -2 not supported, otherwise it returns the GLFW code.
      */
-    public static int convertVKSwingtoGLFW(int code) {
+    public static int map(int code) {
         switch (code) {
             case KeyEvent.CHAR_UNDEFINED:   return GLFW.GLFW_KEY_UNKNOWN;
             case KeyEvent.VK_SPACE:         return GLFW.GLFW_KEY_SPACE;
