@@ -17,8 +17,6 @@
  */
 package dev.nero.bettercolors.engine.utils;
 
-import org.lwjgl.glfw.GLFW;
-
 import java.awt.event.KeyEvent;
 
 public class Keymap {
