@@ -429,4 +429,11 @@ public class BettercolorsEngine {
             }
         }
     }
+
+    /**
+     * @return the GUI
+     */
+    public Window getWindow() {
+        return this.window;
+    }
 }

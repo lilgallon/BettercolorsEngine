@@ -771,13 +771,9 @@ public class Window extends JFrame{
 
         // First message to be shown
         String welcome_message = "";
-        welcome_message += "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x\n";
-        welcome_message += "|                                                |\n";
-        welcome_message += "|       .-``'.    Bettercolors 6    .'''-.       |\n";
-        welcome_message += "|     .`   .`~     Made by N3RO     ~`.   '.     |\n";
-        welcome_message += "| _.-'     '._   github.com/N3ROO   _.'     '-._ |\n";
-        welcome_message += "|  Aknowledgements: shorebre4k & patricktelling  |\n";
-        welcome_message += "x~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~x\n";
+        welcome_message += "Powered by Bettercolors Engine " + Reference.ENGINE_VERSION + ".\n";
+        welcome_message += "Source: https://github.com/N3ROO/BettercolorsEngine\n";
+        welcome_message += "Thanks: shorebre4k, patricktelling\n";
         addText(welcome_message, true);
 
         // Write the messages if there were any pending
