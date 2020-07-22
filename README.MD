@@ -17,9 +17,7 @@ This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/B
 
 ## Support
 
-- **Forge < 1.13**: Use [Old forge (OF) version](https://github.com/N3ROO/BettercolorsEngine/tree/OF)
-- **Forge >= 1.13**: Use [New forge (NF) version](https://github.com/N3ROO/BettercolorsEngine/tree/NF)
-That's because key events changed with the new forge design introduced in Forge 1.13.
+The engine takes into account the forge design change in 1.13 and above, and works with **all versions of Forge** (at least from 1.8.9 to 1.16.1).
 
 ## Why?
 
@@ -29,12 +27,12 @@ is handled by the engine (window, parameters, file saving, version checking, and
 Here is what the automatically generated window looks like:
 
 <p align="center">
-    <img alt="features" src="https://raw.githubusercontent.com/N3ROO/Bettercolors/MC_1.8.9/.github/features_main_crop500.png" />
+    <img alt="features" src="https://raw.githubusercontent.com/N3ROO/BettercolorsEngine/master/.github/features_main_crop500.png" />
 </p>
 
 ## How to use it
 
-- Download the files (`dev.nero.bettercolors.engine`) and paste them in your project *(a maven package will be published later on)*
+- Download the files (`dev.nero.bettercolors.engine`) and paste them in your project *(a maven package may be published later on)*
 - Create the main class to register your mod with forge
 - Start the engine by giving some information about your mod and the modules that you created
 - Write some modules by extending the Module class
@@ -49,5 +47,5 @@ Check [github projects](https://github.com/N3ROO/BettercolorsEngine/projects) to
 
 ## Credits & Acknowledgements
 
-- [@N3ROO](https://github.com/N3ROO)  - *Main developer*
+- [@N3ROO](https://github.com/N3ROO) - *Main developer*
 - [@shorebre4k](https://github.com/shorebre4k) - *Keymap utility class*
