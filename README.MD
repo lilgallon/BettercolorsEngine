@@ -17,12 +17,10 @@ This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/B
 
 ## Support
 
-- Forge 1.16.1: :heavy_check_mark:
-- Forge 1.15.2: :x: *(not tested yet)*
-- Forge 1.14.4: :x: *(not tested yet)*
-- Forge 1.13.2: :x: *(not tested yet)*
-- Forge 1.12.2: :x: *(not tested yet)*
-- Forge 1.8.9: :x: *(in progress)*
+- **Forge < 1.13**: Use [1.8 version](https://github.com/N3ROO/BettercolorsEngine/tree/1.8)
+- **Forge >= 1.13**: Use [1.16 version](https://github.com/N3ROO/BettercolorsEngine/tree/1.16)
+
+That's because key events changed with the new forge design introduced in Forge 1.13.
 
 ## Why?
 
