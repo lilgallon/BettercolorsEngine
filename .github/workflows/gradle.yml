@@ -1,11 +1,9 @@
-name: Build 1.16
-
+name: Build
 on:
   pull_request:
-    branches: 1.16
+    branches: master
   push:
-    branches: 1.16
-
+    branches: master
 jobs:
   build:
 
@@ -17,7 +15,18 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: gradle build
+    - name: Gradle build (1.16.1)
+      uses: eskatos/gradle-command-action@v1
+      with:
+        gradle-version: 4.10.3
+        arguments: build
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Change build.gradle to 1.8.9
+      run: version.py 1.8.9
+    - name: Gradle build (1.8.9)
       uses: eskatos/gradle-command-action@v1
       with:
         gradle-version: 4.10.3
