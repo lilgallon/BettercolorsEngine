@@ -5,11 +5,7 @@
 <p align="center">
   <a href="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"><img alt="Release" src="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"/></a>
     <a href="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"><img alt="Open issues" src="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"/></a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.8/badge.svg"><img alt="Build Status" src="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.8/badge.svg" /></a>
-  <a href="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.16/badge.svg"><img alt="Build Status" src="https://github.com/N3ROO/BettercolorsEngine/workflows/Build%201.16/badge.svg" /></a>
+    <a href="https://github.com/N3ROO/BettercolorsEngine/workflows/Build/badge.svg"><img alt="Build Status" src="https://github.com/N3ROO/BettercolorsEngine/workflows/Build/badge.svg" /></a>
 </p>
 
 A hacking engine that does the annoying part for you. Designed to work with any version of forge.
