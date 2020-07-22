@@ -1,6 +1,6 @@
 **Version 0.1.0**
 
-The engine is designed to work with any minecraft version (from 1.8.9 to 1.16.2).
+The engine is designed to work with any forge version: at least from 1.8.9 to 1.16, but it should work with the rest (not tested yet).
 
 Since it's the first version, here is what you need to do to make a hack mod:
 1. Create the main class to register your mod with forge
