@@ -25,3 +25,6 @@ Utility:
 - `isInSameTeam` That method is available to modules to compare the given entity with the player and returns if they're in the same team
 - `isInGui` That method is available to modules and returns true whether the player is in a GUI
 - `KEY_HANDLER` That field is available to module to know if the user is attacking or using an item (it takes the key the user binded to attack and use)
+
+**Version 0.2.0**
+- Added a friend list fully integrated with the GUI (you can use the Friends utility class)
