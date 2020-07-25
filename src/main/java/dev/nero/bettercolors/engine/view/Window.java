@@ -20,11 +20,13 @@ package dev.nero.bettercolors.engine.view;
 
 import dev.nero.bettercolors.engine.BettercolorsEngine;
 import dev.nero.bettercolors.engine.io.Filer;
+import dev.nero.bettercolors.engine.io.PropertiesFiler;
 import dev.nero.bettercolors.engine.io.SettingsUtils;
 import dev.nero.bettercolors.engine.module.Module;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
+import dev.nero.bettercolors.engine.utils.Friends;
 import dev.nero.bettercolors.engine.utils.Keymap;
 import dev.nero.bettercolors.engine.version.Version;
 import dev.nero.bettercolors.engine.version.VersionException;
@@ -50,7 +52,7 @@ import java.util.*;
 public class Window extends JFrame{
 
     // Used to access the window from outside the class. It is used to add text in the console
-    public static Window instance;
+    private static Window instance;
 
     // Preferred size for the GUI
     private final int WIDTH = 500;
@@ -77,6 +79,7 @@ public class Window extends JFrame{
 
     // Gui components that will be used by other components
     private JTextPane console;
+    private JList<String> friendList;
 
     // Theme-related attributes
     public static LookAndFeel defaultLookAndFeel;
@@ -567,9 +570,18 @@ public class Window extends JFrame{
         }
 
         // Now that we have one tab for each module, we want to create a custom tab for settings management
-        JPanel settings_panel = new JPanel();
-        settings_panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        settings_panel.setLayout(new BorderLayout(0, 15));
+        createSettingsPanel(tabbedPane);
+
+        // We're almost done, we need the friend list now
+        createFriendList(tabbedPane);
+
+        modulesPanel.add(tabbedPane, "Center");
+    }
+
+    private void createSettingsPanel(JTabbedPane tabbedPane){
+        JPanel settingsPanel = new JPanel();
+        settingsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        settingsPanel.setLayout(new BorderLayout(0, 15));
 
         // Used to change the key to toggle the GUI
         JButton keybind = new JButton("Change the key to toggle the GUI [" + Window.TOGGLE_KEY_NAME + "]");
@@ -629,28 +641,28 @@ public class Window extends JFrame{
             // Don't forget to show the popup, otherwise it will be hidden
             dialog.setVisible(true);
         });
-        settings_panel.add(keybind, "North");
+        settingsPanel.add(keybind, "North");
 
         // Now that we have the button to change the key to toggle the GUI, we want to add a new panel to manage the
         // settings file
-        JPanel config_panel = new JPanel();
-        config_panel.setLayout(new BorderLayout());
+        JPanel configPanel = new JPanel();
+        configPanel.setLayout(new BorderLayout());
 
         // The label that will show which settings file is currently selected. Note that the bettercolors settings file
         // have the bc_ prefix. So we only want to show the files with the bc_ prefix.
-        final String selected_file_prefix = "Selected config : ";
-        JLabel selected_file = new JLabel(
+        final String selectedFilePrefix = "Selected config : ";
+        JLabel selectedFile = new JLabel(
                 // Remoe the bc_ prefix for a user-friendly interface lol
-                selected_file_prefix + SettingsUtils.SETTINGS_FILENAME.replaceFirst("bc_", "")
+                selectedFilePrefix + SettingsUtils.SETTINGS_FILENAME.replaceFirst("bc_", "")
         );
-        config_panel.add(selected_file, "North");
+        configPanel.add(selectedFile, "North");
 
         // Show all the available settings file in a list
         DefaultListModel<String> filenames = SettingsUtils.getAllSettingsFilenames();
         JList<String> list = new JList<>(filenames);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(filenames.indexOf(SettingsUtils.SETTINGS_FILENAME));
-        config_panel.add(new JScrollPane(list), "Center");
+        configPanel.add(new JScrollPane(list), "Center");
 
         // Now we want the buttons to load, open and refresh
         JPanel buttons = new JPanel();
@@ -662,15 +674,15 @@ public class Window extends JFrame{
             // Get selected filename and update it in our SettingsUtils class
             SettingsUtils.SETTINGS_FILENAME = list.getSelectedValue();
             // Show that the one selected is now this one
-            selected_file.setText(
-                    selected_file_prefix + SettingsUtils.SETTINGS_FILENAME.replaceFirst("bc_", "")
+            selectedFile.setText(
+                    selectedFilePrefix + SettingsUtils.SETTINGS_FILENAME.replaceFirst("bc_", "")
             );
 
             // Update the selected settings file
             Map<String, String> option = new HashMap<>();
             option.put("settings_file", SettingsUtils.SETTINGS_FILENAME);
-            Filer filer = new Filer(SettingsUtils.FILE_WITH_CURRENT_SETTINGS_USED);
-            filer.write(option, false);
+            PropertiesFiler propertiesFiler = new PropertiesFiler(SettingsUtils.FILE_WITH_CURRENT_SETTINGS_USED);
+            propertiesFiler.write(option, false);
 
             // Load the settings (the code is designed for it to be very simple)
             Map<String, String> options = SettingsUtils.getOptions();
@@ -693,15 +705,15 @@ public class Window extends JFrame{
         buttons.add(select_button);
 
         // Open button: opens the directory where are stored the settings in the OS' default explorer
-        JButton open_button = new JButton("Open");
-        open_button.addActionListener(e -> {
+        JButton openButton = new JButton("Open");
+        openButton.addActionListener(e -> {
             try {
                 Desktop.getDesktop().open(Filer.getSettingsDirectory());
             } catch (IOException e1) {
                 addText(LOG_PREFIX + "unable to open the settings directory !", Color.RED, true);
             }
         });
-        buttons.add(open_button);
+        buttons.add(openButton);
 
         // Refresh the settings file (if the user added one in the meantime)
         JButton refresh_button = new JButton("Refresh");
@@ -719,7 +731,7 @@ public class Window extends JFrame{
             }
         });
         buttons.add(refresh_button);
-        config_panel.add(buttons, "South");
+        configPanel.add(buttons, "South");
 
         // Add a specific icon to the settings management tab
         try {
@@ -730,15 +742,65 @@ public class Window extends JFrame{
                                     .getResource("images/settings_symbol.png")
                     )
             );
-            tabbedPane.addTab("Settings", icon, settings_panel);
+            tabbedPane.addTab("Settings", icon, settingsPanel);
         } catch (Exception e) {
             e.printStackTrace();
             addText(LOG_PREFIX + "Failed to load images/settings_symbol.png", Color.RED, true);
-            tabbedPane.addTab("Settings", settings_panel);
+            tabbedPane.addTab("Settings", settingsPanel);
         }
 
-        settings_panel.add(config_panel, "Center");
-        modulesPanel.add(tabbedPane, "Center");
+        settingsPanel.add(configPanel, "Center");
+    }
+
+    private void createFriendList(JTabbedPane tabbedPane){
+        JPanel friendListPanel = new JPanel();
+        friendListPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        friendListPanel.setLayout(new BorderLayout(0, 15));
+
+        // Label, input, button to add a new friend & button to remove selected friend
+        JPanel newFriendPanel = new JPanel(new BorderLayout());
+        JLabel newFriendLabel = new JLabel("New friend: ");
+        JTextField newFriendInput = new JTextField();
+        JPanel buttonsPanel = new JPanel();
+        JButton newFriendButton = new JButton("Add");
+        JButton deleteFriendButton = new JButton("Remove" + (Friends.getFriends().size() > 0 ? " " + Friends.getFriends().get(0) : ""));
+        JButton refreshButton = new JButton("Refresh");
+        newFriendPanel.add(newFriendLabel, "West");
+        newFriendPanel.add(newFriendInput, "Center");
+        newFriendPanel.add(newFriendButton, "East");
+        buttonsPanel.add(refreshButton, "West");
+        buttonsPanel.add(deleteFriendButton, "Center");
+        newFriendPanel.add(buttonsPanel, "South");
+        friendListPanel.add(newFriendPanel, "North");
+
+        // Friend list
+        friendList = new JList(Friends.getFriends().toArray());
+        friendList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        friendList.setSelectedIndex(0);
+        friendListPanel.add(new JScrollPane(friendList), "Center");
+        friendList.addListSelectionListener(e -> deleteFriendButton.setText("Remove " + friendList.getSelectedValue()));
+
+        // Listeners
+        newFriendButton.addActionListener(e -> Friends.addFriend(newFriendInput.getText()));
+        deleteFriendButton.addActionListener(e -> Friends.removeFriend(friendList.getSelectedValue()));
+        // also see Window#updateFriends()
+        refreshButton.addActionListener(e -> Friends.loadFriends());
+
+        // Icon & add it to the tabs
+        try {
+            ImageIcon icon = new ImageIcon(
+                    Objects.requireNonNull(
+                            Thread.currentThread()
+                                    .getContextClassLoader()
+                                    .getResource("images/security_symbol.png")
+                    )
+            );
+            tabbedPane.addTab("Friends", icon, friendListPanel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            addText(LOG_PREFIX + "Failed to load images/security_symbol.png", Color.RED, true);
+            tabbedPane.addTab("Friends", friendListPanel);
+        }
     }
 
     /**
@@ -796,6 +858,14 @@ public class Window extends JFrame{
         );
         credits.setFont(new Font(credits.getFont().getFontName(), Font.PLAIN, 12));
         footerPanel.add(credits, "West");
+    }
+
+    /**
+     * Updates the friend list (only visually!!!). To get the friend list, use the Friends class.
+     */
+    public void updateFriends() {
+        String[] str = new String[Friends.getFriends().size()];
+        friendList.setListData(Friends.getFriends().toArray(str));
     }
 
     /**
@@ -939,5 +1009,9 @@ public class Window extends JFrame{
             this.color = color;
             this.newline = newline;
         }
+    }
+
+    public static Window getInstance() {
+        return instance;
     }
 }

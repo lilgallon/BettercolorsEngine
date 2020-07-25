@@ -93,7 +93,7 @@ public abstract class Module {
     protected void logInfo(String msg){
         if(!msg.equalsIgnoreCase(lastLogMessage)) {
             lastLogMessage = msg;
-            Window.instance.addText(LOG_PREFIX + " " + msg, true);
+            Window.getInstance().addText(LOG_PREFIX + " " + msg, true);
         }
     }
 
@@ -104,7 +104,7 @@ public abstract class Module {
     protected void logError(String msg){
         if(!msg.equalsIgnoreCase(lastLogMessage)) {
             lastLogMessage = msg;
-            Window.instance.addText(LOG_PREFIX + " " + msg, Color.RED, true);
+            Window.getInstance().addText(LOG_PREFIX + " " + msg, Color.RED, true);
         }
     }
 

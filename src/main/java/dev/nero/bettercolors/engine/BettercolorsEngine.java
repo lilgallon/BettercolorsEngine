@@ -18,9 +18,11 @@
 
 package dev.nero.bettercolors.engine;
 
+import dev.nero.bettercolors.engine.io.RawFiler;
 import dev.nero.bettercolors.engine.module.Module;
-import dev.nero.bettercolors.engine.io.Filer;
+import dev.nero.bettercolors.engine.io.PropertiesFiler;
 import dev.nero.bettercolors.engine.io.SettingsUtils;
+import dev.nero.bettercolors.engine.utils.Friends;
 import dev.nero.bettercolors.engine.utils.KeysManager;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
@@ -160,12 +162,12 @@ public class BettercolorsEngine {
         // If the file does not exist, it means that it is the first time that we run the mod. In that case, we create
         // the file that contains the settings filename that is used by the user. The parameter only_absents=true means
         // that we will only write if the option is not in the file.
-        Filer filer = new Filer("_bc_settingsfile");
-        filer.write(option, true);
+        PropertiesFiler propertiesFiler = new PropertiesFiler("_bc_settingsfile");
+        propertiesFiler.write(option, true);
 
         // Now that we are sure that the file containing the settings file used by the user exists, we can load it.
         // We update the settings utils static variable to the current used settings file
-        SettingsUtils.SETTINGS_FILENAME = filer.read("settings_file");
+        SettingsUtils.SETTINGS_FILENAME = propertiesFiler.read("settings_file");
 
         // Alright, now that we know what settings file to read, we can read it. We will load and store everything in
         // the options variable.
@@ -231,6 +233,9 @@ public class BettercolorsEngine {
         // Now that we are sure that all the options have been loaded, we will send them to our modules while
         // initializing them.
         options = SettingsUtils.getOptions();
+
+        // The last thing to do with external files is to load all the friends
+        Friends.loadFriends();
 
         // Mods initialisation
         this.modules = new ArrayList<>();
@@ -431,8 +436,11 @@ public class BettercolorsEngine {
     }
 
     /**
+     * @deprecated As of release 0.2.0, replaced by {@link Window#getInstance()}
+     *
      * @return the GUI
      */
+    @Deprecated()
     public Window getWindow() {
         return this.window;
     }

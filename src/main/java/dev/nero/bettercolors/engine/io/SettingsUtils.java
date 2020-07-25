@@ -53,7 +53,7 @@ public class SettingsUtils {
             }
         }
 
-        Filer settings = new Filer(SETTINGS_FILENAME);
+        PropertiesFiler settings = new PropertiesFiler(SETTINGS_FILENAME);
         settings.write(options, only_absents);
     }
 
@@ -61,7 +61,7 @@ public class SettingsUtils {
      * @return all the options in the configuration file.
      */
     public static Map<String, String> getOptions(){
-        Filer settings = new Filer(SETTINGS_FILENAME);
+        PropertiesFiler settings = new PropertiesFiler(SETTINGS_FILENAME);
         return settings.readAll();
     }
 
@@ -70,7 +70,7 @@ public class SettingsUtils {
      * @return the value of the option.
      */
     public static String getOption(String name){
-        Filer settings = new Filer(SETTINGS_FILENAME);
+        PropertiesFiler settings = new PropertiesFiler(SETTINGS_FILENAME);
         return settings.read(name);
     }
 
@@ -83,7 +83,7 @@ public class SettingsUtils {
         Map<String, String> options = new HashMap<>();
         options.put(option, value);
 
-        Filer settings = new Filer(SETTINGS_FILENAME);
+        PropertiesFiler settings = new PropertiesFiler(SETTINGS_FILENAME);
         settings.write(options, false);
     }
 
