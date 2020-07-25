@@ -4,37 +4,43 @@
 
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
-apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200514-1.16'
+    version = "1.8.9-11.15.1.1722"
+    runDir = "run"
+    mappings = "stable_22"
+}
 
-    runs {
-        client {
-            workingDirectory project.file('run')
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
 
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
 
-            mods {
-                bettercolors {
-                    source sourceSets.main
-                }
-            }
-        }
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
     }
 }
 
@@ -47,28 +53,18 @@ configurations {
     compile.extendsFrom inJar
 }
 
+dependencies {
+    inJar 'io.github.vincenzopalazzo:material-ui-swing:1.1.1_beta'
+}
+
 jar {
-    into('/META-INF/libraries/') {
+    into('META-INF/libraries') {
         from configurations.inJar
     }
 
     manifest {
-        attributes([
-            'ContainedDeps': 'material-ui-swing-1.1.1_beta.jar'
-        ])
+        attributes(
+                'ContainedDeps': 'material-ui-swing-1.1.1_beta.jar'
+        )
     }
-}
-
-// ******************
-// Common
-// ******************
-
-dependencies {
-    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
-    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
-    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.1-32.0.25'
-
-    // Themes
-    inJar 'io.github.vincenzopalazzo:material-ui-swing:1.1.1_beta'
 }
