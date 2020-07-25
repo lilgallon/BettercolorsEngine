@@ -32,3 +32,4 @@ The engine takes into account the forge design change in 1.13 and above, and wor
 
 **Version 0.3.0**
 - Added a friend list fully integrated with the GUI (you can use the Friends utility class)
+- Updated material UI from 1.1.1-beta to 1.1.1-rc4 (5 big updates). Fixes a lot of alignment issues.
