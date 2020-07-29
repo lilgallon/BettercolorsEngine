@@ -76,7 +76,7 @@ public class Window extends JFrame{
     private Font consoleFont;
     private int textCounter = 0;
     private JScrollPane scroll;
-    private Queue<Message> waitingMessages;
+    private static Queue<Message> waitingMessages;
 
     // Gui components that will be used by other components
     private JTextPane console;
@@ -919,11 +919,34 @@ public class Window extends JFrame{
         }
     }
 
+    public static void LOG(LogLevel logLevel, String text) {
+        Color color;
+
+        switch (logLevel) {
+            case ERROR:
+                color = Color.RED;
+                break;
+            case WARNING:
+                color = Color.ORANGE;
+                break;
+            default:
+                color = Color.WHITE;
+        }
+
+        if (Window.getInstance() == null) {
+            Window.waitingMessages.add(new Message(text, color, true));
+        } else {
+            Window.getInstance().addText(text, color, true);
+        }
+    }
+
     /**
      * Adds text to the console
      * @param text the text
      * @param new_line if it should create a new line
+     * @deprecated use Window#log instead, this will be private on the stable release (1.0.0)
      */
+    @Deprecated
     public void addText(String text, boolean new_line){
         addText(text, Color.WHITE, new_line);
     }
@@ -933,12 +956,16 @@ public class Window extends JFrame{
      * @param text the text
      * @param color color of the text
      * @param new_line if it should create a new line
+     * @deprecated use Window#log instead, this will be private on the stable release (1.0.0)
      */
+    @Deprecated
     public void addText(String text, Color color, boolean new_line){
+        // TODO: remove on 1.0.0 release
         if(this.console == null) {
             waitingMessages.add(new Message(text, color, new_line));
             return;
         }
+        // ---------------------------------
 
         this.textCounter ++;
         if(this.textCounter > 30) {
@@ -1035,18 +1062,6 @@ public class Window extends JFrame{
      */
     public void toggle(){
         setVisible(!isVisible());
-    }
-
-    class Message{
-        String text;
-        Color color;
-        Boolean newline;
-
-        Message(String text, Color color, Boolean newline){
-            this.text = text;
-            this.color = color;
-            this.newline = newline;
-        }
     }
 
     public static Window getInstance() {

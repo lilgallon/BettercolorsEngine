@@ -23,9 +23,9 @@ import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.option.ValueFloatOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
+import dev.nero.bettercolors.engine.view.LogLevel;
 import dev.nero.bettercolors.engine.view.Window;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,7 +94,7 @@ public abstract class Module {
     protected void logInfo(String msg){
         if(!msg.equalsIgnoreCase(lastLogMessage)) {
             lastLogMessage = msg;
-            Window.getInstance().addText(LOG_PREFIX + " " + msg, true);
+            Window.LOG(LogLevel.INFO, LOG_PREFIX + " " + msg);
         }
     }
 
@@ -105,7 +105,7 @@ public abstract class Module {
     protected void logError(String msg){
         if(!msg.equalsIgnoreCase(lastLogMessage)) {
             lastLogMessage = msg;
-            Window.getInstance().addText(LOG_PREFIX + " " + msg, Color.RED, true);
+            Window.LOG(LogLevel.ERROR, LOG_PREFIX + " " + msg);
         }
     }
 

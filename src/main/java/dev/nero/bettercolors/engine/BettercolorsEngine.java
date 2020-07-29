@@ -26,6 +26,7 @@ import dev.nero.bettercolors.engine.utils.KeysManager;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.version.Version;
+import dev.nero.bettercolors.engine.view.LogLevel;
 import dev.nero.bettercolors.engine.view.Window;
 import mdlaf.MaterialLookAndFeel;
 import mdlaf.themes.JMarsDarkTheme;
@@ -179,6 +180,8 @@ public class BettercolorsEngine {
         // If we could not read the options (settings), it means that the file does not exist. In that case, we will
         // create a new file with all the default parameter of each module.
         if (options == null) {
+            Window.LOG(LogLevel.INFO, "[~] Could not find " + SettingsUtils.SETTINGS_FILENAME + ", creating it");
+
             ArrayList<ArrayList<Option>> modules_options = new ArrayList<>();
             ArrayList<Option> modules_activation = new ArrayList<>();
 
@@ -202,7 +205,11 @@ public class BettercolorsEngine {
                             // System.out.println("Got default options for " + moduleClass.getSimpleName());
                             modules_options.add(defaultOptions);
                         } else {
-                            System.out.println("Could not get default options for " + moduleClass.getSimpleName());
+                            Window.LOG(
+                                    LogLevel.WARNING,
+                                    "[!] Could not get default options for " + moduleClass.getSimpleName()
+                            );
+
                             if (VERBOSE)
                                 System.out.println(
                                         "If you are the developer you should implement a static method called "
@@ -210,14 +217,24 @@ public class BettercolorsEngine {
                                         + "if the module hasn't any option"
                                 );
                         }
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        System.out.println("Could not invoke getDefaultOptions method of " +
-                                moduleClass.getSimpleName() + " even though we found it.");
+                    } catch (IllegalAccessException e) {
+                        Window.LOG(
+                                LogLevel.ERROR,
+                                "[!] The engine doesn't have access to default options of " +
+                                        moduleClass.getSimpleName()
+                        );
+                    } catch (InvocationTargetException e) {
+                        Window.LOG(
+                                LogLevel.ERROR,
+                                "[!] Error caught when trying to get default options of " +
+                                        moduleClass.getSimpleName()
+                        );
                     }
                 } catch (NoSuchMethodException e) {
-                    System.out.println(
-                            "Could not find the method getDefaultOptions associated to class "
-                            + moduleClass.getSimpleName()
+                    Window.LOG(
+                            LogLevel.ERROR,
+                            "[!] Could not find the method getDefaultOptions associated to class " +
+                                    moduleClass.getSimpleName()
                     );
                 }
 
@@ -225,6 +242,8 @@ public class BettercolorsEngine {
                 // We need to load all the modules and turn them on or off according to what's given
                 modules_activation.add(new ToggleOption("", entry.getKey().getSimpleName(), entry.getValue().b));
             }
+
+            Window.LOG(LogLevel.INFO, "[+] Loaded " + SettingsUtils.SETTINGS_FILENAME + "");
 
             modules_options.add(modules_activation);
 
@@ -247,6 +266,8 @@ public class BettercolorsEngine {
             Class<Module> moduleClass = (Class<Module>) entry.getKey();
             int toggleKey = entry.getValue().i;
 
+            Window.LOG(LogLevel.INFO, "[~] Instantiating " + moduleClass.getSimpleName());
+
             try {
                 Module module = moduleClass.getDeclaredConstructor(
                         Integer.class,
@@ -258,17 +279,29 @@ public class BettercolorsEngine {
                 );
 
                 this.modules.add(module);
+                if (VERBOSE) System.out.println("It worked, " + moduleClass.getSimpleName() + " created!");
+                Window.LOG(LogLevel.INFO, "[+] " + moduleClass.getSimpleName() + " created");
+
             } catch (InstantiationException
                     | IllegalAccessException
                     | InvocationTargetException
                     | NoSuchMethodException e1) {
 
-                e1.printStackTrace();
+                if (VERBOSE) e1.printStackTrace();
 
-                if (VERBOSE)
-                    System.out.println(
-                            "Failed to instantiate " + moduleClass.getSimpleName() + " trying with other parameters"
-                    );
+                if (e1 instanceof InvocationTargetException) {
+                    Window.LOG(LogLevel.ERROR, "[!] Could not instantiate " + moduleClass.getSimpleName());
+                    if (VERBOSE)
+                        System.out.println(
+                                "Exception caught during " + moduleClass.getSimpleName() + " creation"
+                        );
+                } else {
+                    if (VERBOSE)
+                        System.out.println(
+                                "Failed to instantiate " + moduleClass.getSimpleName() + " trying with other parameters"
+                        );
+                }
+
                 try {
                     Module module = moduleClass.getDeclaredConstructor(
                             Integer.class,
@@ -278,16 +311,31 @@ public class BettercolorsEngine {
                     );
 
                     this.modules.add(module);
-                    if (VERBOSE) System.out.println("Success");
+                    if (VERBOSE) System.out.println("It worked, " + moduleClass.getSimpleName() + " created!");
+                    Window.LOG(LogLevel.INFO, "[+] " + moduleClass.getSimpleName() + " created");
+
                 } catch (InstantiationException
                         | IllegalAccessException
                         | InvocationTargetException
                         | NoSuchMethodException e2) {
 
-                    System.out.println(
-                            "Failed to instantiate " + moduleClass.getSimpleName() + " with different parameters"
-                    );
-                    e2.printStackTrace();
+                    if (VERBOSE) e2.printStackTrace();
+
+                    if (e2 instanceof InvocationTargetException) {
+                        if (VERBOSE)
+                            System.out.println(
+                                    "Exception caught during " + moduleClass.getSimpleName() + " creation"
+                            );
+                    } else {
+                        if (VERBOSE)
+                            System.out.println(
+                                    "Failed to instantiate " + moduleClass.getSimpleName() + " (second try)"
+                            );
+                    }
+
+                    Window.LOG(LogLevel.ERROR, "[!] Could not instantiate " + moduleClass.getSimpleName());
+                    Window.LOG(LogLevel.ERROR, "[!] ^ It should not happen. Try to rename the config file " +
+                            "and restart your client so that a new file will be created");
 
                     if (VERBOSE) {
                         System.out.println("1: Make sure that your module constructor has object and not type (ex: Integer and not int)");
@@ -344,6 +392,7 @@ public class BettercolorsEngine {
                     }
                 } catch (Exception e) {
                     // Probably an issue with the library used. It should not happen.
+                    Window.LOG(LogLevel.ERROR, "[!] Issue with the MaterialUI themes");
                     System.out.println("The following error may be coming from the library used to theme the GUI");
                     e.printStackTrace();
                 }

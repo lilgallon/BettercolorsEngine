@@ -1,13 +1,13 @@
 package dev.nero.bettercolors.engine.utils;
 
 import dev.nero.bettercolors.engine.io.RawFiler;
+import dev.nero.bettercolors.engine.view.LogLevel;
 import dev.nero.bettercolors.engine.view.Window;
 
 import java.util.ArrayList;
 
 public class Friends {
 
-    private static String PREFIX = "[Friends] ";
     private static ArrayList<String> friends = new ArrayList<>();
 
     /**
@@ -26,7 +26,7 @@ public class Friends {
                 RawFiler friendsFile = new RawFiler("friends");
                 friendsFile.write(someone, friends.size() > 1);
 
-                Window.getInstance().addText(PREFIX + "Added " + friends.size(), true);
+                Window.LOG(LogLevel.INFO, "[+] Added " + someone);
             }
         }
     }
@@ -47,7 +47,7 @@ public class Friends {
                 RawFiler friendsFile = new RawFiler("friends");
                 friendsFile.erase(friend);
 
-                Window.getInstance().addText(PREFIX + "Removed " + friend, true);
+                Window.LOG(LogLevel.INFO, "[+] Removed " + friend);
             }
         }
     }
@@ -61,7 +61,7 @@ public class Friends {
 
         if (Window.getInstance() != null) {
             Window.getInstance().updateFriends();
-            Window.getInstance().addText(PREFIX + "Loaded " + friends.size() + " friends", true);
+            Window.LOG(LogLevel.INFO, "[+] Loaded " + friends.size() + " friends");
         }
     }
 
