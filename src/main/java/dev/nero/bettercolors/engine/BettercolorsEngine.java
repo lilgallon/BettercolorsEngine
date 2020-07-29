@@ -18,7 +18,6 @@
 
 package dev.nero.bettercolors.engine;
 
-import dev.nero.bettercolors.engine.io.RawFiler;
 import dev.nero.bettercolors.engine.module.Module;
 import dev.nero.bettercolors.engine.io.PropertiesFiler;
 import dev.nero.bettercolors.engine.io.SettingsUtils;
@@ -57,8 +56,8 @@ import java.util.Map;
 public class BettercolorsEngine {
 
     public static boolean VERBOSE = false;
-
     public static Minecraft MC;
+    public static BettercolorsEngine instance;
 
     // Used to know if the mod is being built with the new forge api or not (>=1.13 is new, <1.13 is old)
     public enum FORGE { NEW, OLD }
@@ -77,6 +76,10 @@ public class BettercolorsEngine {
 
     protected ArrayList<Module> modules;
     private Window window;
+
+    public BettercolorsEngine() {
+        instance = this;
+    }
 
     /**
      * It initializes everything
@@ -260,6 +263,8 @@ public class BettercolorsEngine {
                     | InvocationTargetException
                     | NoSuchMethodException e1) {
 
+                e1.printStackTrace();
+
                 if (VERBOSE)
                     System.out.println(
                             "Failed to instantiate " + moduleClass.getSimpleName() + " trying with other parameters"
@@ -355,6 +360,8 @@ public class BettercolorsEngine {
                 this.modules,
                 Reference.MOD_VERSION
         );
+
+        this.window.toggle();
     }
 
     /**
@@ -433,6 +440,26 @@ public class BettercolorsEngine {
                 mod.update();
             }
         }
+    }
+
+    /**
+     * @param name name of the module to get
+     * @return the module with the given name, or null if not found
+     */
+    public Module getModule(String name) {
+        for (Module module : this.modules) {
+            if (module.getName().equalsIgnoreCase(name)) {
+                return module;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return the engine's instance
+     */
+    public static BettercolorsEngine getInstance() {
+        return instance;
     }
 
     /**
