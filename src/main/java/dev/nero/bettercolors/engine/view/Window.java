@@ -1052,6 +1052,14 @@ public class Window extends JFrame{
     }
 
     /**
+     * Shows a dialog window with the given message
+     * @param message message to show
+     */
+    public void dialog(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    /**
      * It hides / reveals the window.
      */
     public void toggle(){
