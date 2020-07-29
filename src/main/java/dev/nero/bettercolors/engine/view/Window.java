@@ -76,7 +76,7 @@ public class Window extends JFrame{
     private Font consoleFont;
     private int textCounter = 0;
     private JScrollPane scroll;
-    private static Queue<Message> waitingMessages;
+    private static Queue<Message> waitingMessages = new LinkedList<>();
 
     // Gui components that will be used by other components
     private JTextPane console;
@@ -143,10 +143,6 @@ public class Window extends JFrame{
         this.CHECKBOXES_ACTIVATION = new ArrayList<>();
         this.CHECKBOXES_MODULES = new ArrayList<>();
         this.SLIDERS_MODULES = new HashMap<>();
-
-        // This array contains the messages that need to be displayed to the console while the console is still not
-        // initialized
-        this.waitingMessages = new LinkedList<>();
 
         // We want to use a custom font for the console. We will initialize it here
         // Here is the default font if we can't load the one that we want

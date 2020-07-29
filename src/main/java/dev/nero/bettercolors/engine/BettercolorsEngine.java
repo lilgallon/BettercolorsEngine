@@ -266,8 +266,6 @@ public class BettercolorsEngine {
             Class<Module> moduleClass = (Class<Module>) entry.getKey();
             int toggleKey = entry.getValue().i;
 
-            Window.LOG(LogLevel.INFO, "[~] Instantiating " + moduleClass.getSimpleName());
-
             try {
                 Module module = moduleClass.getDeclaredConstructor(
                         Integer.class,
@@ -280,7 +278,7 @@ public class BettercolorsEngine {
 
                 this.modules.add(module);
                 if (VERBOSE) System.out.println("It worked, " + moduleClass.getSimpleName() + " created!");
-                Window.LOG(LogLevel.INFO, "[+] " + moduleClass.getSimpleName() + " created");
+                Window.LOG(LogLevel.INFO, "[+] " + moduleClass.getSimpleName() + " initialized");
 
             } catch (InstantiationException
                     | IllegalAccessException
@@ -312,7 +310,7 @@ public class BettercolorsEngine {
 
                     this.modules.add(module);
                     if (VERBOSE) System.out.println("It worked, " + moduleClass.getSimpleName() + " created!");
-                    Window.LOG(LogLevel.INFO, "[+] " + moduleClass.getSimpleName() + " created");
+                    Window.LOG(LogLevel.INFO, "[+] " + moduleClass.getSimpleName() + " initialized");
 
                 } catch (InstantiationException
                         | IllegalAccessException
