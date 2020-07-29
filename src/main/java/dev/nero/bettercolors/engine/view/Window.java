@@ -814,13 +814,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/security_symbol.png")
+                                    .getResource("images/sprint_symbol.png")
                     )
             );
             tabbedPane.addTab("Friends", icon, friendListPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            addText(LOG_PREFIX + "Failed to load images/security_symbol.png", Color.RED, true);
+            addText(LOG_PREFIX + "Failed to load images/sprint_symbol.png", Color.RED, true);
             tabbedPane.addTab("Friends", friendListPanel);
         }
     }
