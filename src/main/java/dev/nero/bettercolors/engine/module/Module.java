@@ -21,6 +21,7 @@ package dev.nero.bettercolors.engine.module;
 import dev.nero.bettercolors.engine.BettercolorsEngine;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
+import dev.nero.bettercolors.engine.option.ValueFloatOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
 import dev.nero.bettercolors.engine.view.Window;
 
@@ -164,8 +165,10 @@ public abstract class Module {
             if(index != -1){
                 if(this.options.get(index) instanceof ToggleOption){
                     ((ToggleOption) this.options.get(index)).setActivated(Boolean.parseBoolean(optionValue));
-                }else{
+                } else if (this.options.get(index) instanceof ValueOption){
                     ((ValueOption) this.options.get(index)).setVal(Integer.parseInt(optionValue));
+                }  else if (this.options.get(index) instanceof ValueFloatOption){
+                    ((ValueFloatOption) this.options.get(index)).setVal(Float.parseFloat(optionValue));
                 }
             }
         }

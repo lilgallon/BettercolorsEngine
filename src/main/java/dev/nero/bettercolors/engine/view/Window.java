@@ -25,6 +25,7 @@ import dev.nero.bettercolors.engine.io.SettingsUtils;
 import dev.nero.bettercolors.engine.module.Module;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
+import dev.nero.bettercolors.engine.option.ValueFloatOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
 import dev.nero.bettercolors.engine.utils.Friends;
 import dev.nero.bettercolors.engine.utils.Keymap;
@@ -497,26 +498,45 @@ public class Window extends JFrame{
 
             // We retrieve all the value options of the module in a specific array. A value option is an option that
             // is a value (so we need sliders to render it)
-            ArrayList<ValueOption> value_options = Option.getValueOptions(module.getOptions());
+            ArrayList<Option> valueOptions = Option.getValueOptions(module.getOptions());
             // Yes, there is a warning, because at the moment, all the modules have value options, so it is always true
-            if(value_options != null){
+            if(valueOptions.size() > 0){
                 // We will create a slider grid that contains one slider per line. The first column contains the text
                 // while the second one contains the actual slider
                 JPanel slidersPanel = new JPanel();
-                slidersPanel.setLayout(new GridLayout(value_options.size(), 2));
+                slidersPanel.setLayout(new GridLayout(valueOptions.size(), 2));
 
-                for(ValueOption value_option : value_options){
+                for(Option valueOption : valueOptions){
+                    boolean decimal;
+                    float value;
+                    float min;
+                    float max;
+
+                    if (valueOption instanceof ValueFloatOption) {
+                        decimal = true;
+                        value = ((ValueFloatOption) valueOption).getVal();
+                        min = ((ValueFloatOption) valueOption).getMin();
+                        max = ((ValueFloatOption) valueOption).getMax();
+                    } else {
+                        decimal = false;
+                        value = ((ValueOption) valueOption).getVal();
+                        min = ((ValueOption) valueOption).getMin();
+                        max = ((ValueOption) valueOption).getMax();
+                    }
+
                     // The label contains the value next to the its name
-                    final JLabel label = new JLabel(value_option.getName() + " [" + value_option.getVal() + "]");
+                    final JLabel label = new JLabel(valueOption.getName() + " [" + value + "]");
                     final JSlider slider = new JSlider();
 
                     // Preferred size
                     slider.setPreferredSize(new Dimension(WIDTH/2, 10));
 
                     // Slider value settings
-                    slider.setMinimum(value_option.getMin());
-                    slider.setMaximum(value_option.getMax());
-                    slider.setValue(value_option.getVal());
+                    // if decimal, multiply by 100 bc the sliders only support int. Then Divide by 100 to get the
+                    // decimal value.
+                    slider.setMinimum(decimal ? (int) (min * 100.0f) : (int) min);
+                    slider.setMaximum(decimal ? (int) (max * 100.0f) : (int) max);
+                    slider.setValue(decimal ? (int) (value * 100.0f) : (int) value);
 
                     // Max/min size
                     slider.setMaximumSize(new Dimension(100, 10));
@@ -529,10 +549,18 @@ public class Window extends JFrame{
 
                     // What happens when the user uses the slider
                     slider.addChangeListener(e -> {
+                        float newValue;
                         // Change the module's option
-                        value_option.setVal(slider.getValue());
+                        if (decimal) {
+                            newValue = (float) slider.getValue() / 100.0f;
+                            ((ValueFloatOption) valueOption).setVal(newValue);
+                        } else {
+                            newValue = slider.getValue();
+                            ((ValueOption) valueOption).setVal((int) newValue);
+                        }
+
                         // Update the label with the slider's new value
-                        label.setText(value_option.getName() + " [" + value_option.getVal() + "]");
+                        label.setText(valueOption.getName() + " [" + newValue + "]");
                         // Update the GUI
                         repaint();
                     });
@@ -977,12 +1005,22 @@ public class Window extends JFrame{
         }
 
         for(Module module : MODULES){
-            ArrayList<ValueOption> value_options = Option.getValueOptions(module.getOptions());
-            for(ValueOption value_option : value_options){
+            ArrayList<Option> valueOptions = Option.getValueOptions(module.getOptions());
+            for(Option valueOption : valueOptions){
                 for(Map.Entry<JLabel, JSlider> entry : SLIDERS_MODULES.entrySet()){
-                    if(entry.getKey().getText().contains(value_option.getName())){
-                        entry.getKey().setText(value_option.getName() + " [" + value_option.getVal() + "]");
-                        entry.getValue().setValue(value_option.getVal());
+                    boolean decimal;
+                    float val;
+                    if (valueOption instanceof ValueFloatOption) {
+                        decimal = true;
+                        val = ((ValueFloatOption) valueOption).getVal();
+                    } else {
+                        decimal = false;
+                        val = ((ValueOption) valueOption).getVal();
+                    }
+
+                    if(entry.getKey().getText().contains(valueOption.getName())){
+                        entry.getKey().setText(valueOption.getName() + " [" + val + "]");
+                        entry.getValue().setValue(decimal ? (int) (val * 100f) : (int) val);
                         break; // :(
                     }
                 }
