@@ -312,11 +312,11 @@ public class Window extends JFrame{
                 case DEVELOPMENT:
                     update.setForeground(new Color(150, 70, 0));
                     update.setText("Development build");
-                    addText("You are using a development build", Color.ORANGE, true);
+                    addText("\nYou are using a development build", Color.ORANGE, true);
                     break;
                 case UPDATED:
                     update.setText("No update available");
-                    addText("You are using the last version", Color.GREEN, true);
+                    addText("\nYou are using the last version", Color.GREEN, true);
                     break;
                 case OUTDATED:
                     update.setForeground(new Color(0, 70, 100));
@@ -342,8 +342,7 @@ public class Window extends JFrame{
                     });
 
                     // Show the changelog
-                    addText("", true);
-                    addText("", true);
+                    addText("\nUpdate available! Changelog:", Color.ORANGE, true);
                     String[] lines = latest.getChangelog().split("\\\\n");
                     for(String line : lines) {
                         String[] split = line.split("\\*\\*");
@@ -361,7 +360,6 @@ public class Window extends JFrame{
                         }
                     }
 
-                    addText("There is an update available", Color.ORANGE, true);
                     break;
             }
         } catch (VersionException e) {
@@ -369,19 +367,19 @@ public class Window extends JFrame{
                 case NO_INTERNET:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("Could not check the version");
-                    addText("Could not check the version", Color.RED, true);
+                    addText("\nCould not check the version", Color.RED, true);
                     addText("If you are not connected to internet, it's normal", Color.RED, true);
                     break;
                 case URL_ISSUE:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("URL issue");
-                    addText("Could not read the URL to check for the version", Color.RED, true);
+                    addText("\nCould not read the URL to check for the version", Color.RED, true);
                     addText("It should not happen, you can open an issue to github", Color.RED, true);
                     break;
                 case NO_VERSION:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("No version found");
-                    addText("No version found, was bettercolors released for MC " + Reference.MC_VERSION + "?", Color.RED, true);
+                    addText("\nNo version found, was bettercolors released for MC " + Reference.MC_VERSION + "?", Color.RED, true);
                     addText("If yes, then the API may have changed, you can open an issue to github", Color.RED, true);
                     break;
             }
