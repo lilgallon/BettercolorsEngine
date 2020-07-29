@@ -230,8 +230,8 @@ public class BettercolorsEngine {
                 }
             } catch (NoSuchMethodException e) {
                 Window.LOG(
-                        LogLevel.ERROR,
-                        "[!] Could not find the method getDefaultOptions associated to class " +
+                        LogLevel.WARNING,
+                        "[*] Could not find the method getDefaultOptions associated to class " +
                                 moduleClass.getSimpleName()
                 );
             }
