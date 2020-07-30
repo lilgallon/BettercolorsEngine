@@ -350,8 +350,6 @@ public class BettercolorsEngine {
                 this.modules,
                 Reference.MOD_VERSION
         );
-
-        this.window.toggle();
     }
 
     /**
