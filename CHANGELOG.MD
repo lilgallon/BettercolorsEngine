@@ -27,5 +27,18 @@ Utility:
 - `KEY_HANDLER` That field is available to module to know if the user is attacking or using an item (it takes the key the user binded to attack and use)
 
 **Version 0.2.0**
-
+The engine takes into account the forge design change in 1.13 and above, and works with all versions of Forge (at least from 1.8.9 to 1.16.1)
 Only one version of the Engine for any Forge Version (0.1.0 had two differents versions: OF and NF for respectively the old forge and the new forge design)
+
+**Version 0.3.0**
+- Added a friend list fully integrated with the GUI (you can use the Friends utility class)
+- Updated material UI from 1.1.1-beta to 1.1.1-rc4 (5 big updates). Fixes a lot of alignment issues.
+- Added accessors to the main engine class
+- Added a ValueFloatOption class that defines a floating point slider (same as ValueOption, but for decimal numbers)
+- Added a lot of logging message during engine's startup. Also improved the way to log messages to the console
+- Better config file loader: it automatically updates the config file with the missing fields if there're any. It will prevent weird crashes that are complicated to understand for the user
+- Added an utility function to Window class to show a dialog window (Window#dialog)
+- Added a reset to default button to reset the settings to default
+- Options classes are now cloneable
+- Improved window's layout
+- Improved versions' compatibility. No need to change the config file when updating the mod. It will automatically add the missing settings in the file if needed.

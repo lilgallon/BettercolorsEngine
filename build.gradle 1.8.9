@@ -22,7 +22,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 minecraft {
     version = "1.8.9-11.15.1.1722"
     runDir = "run"
-    mappings = "stable_20"
+    mappings = "stable_22"
 }
 
 processResources {
@@ -54,7 +54,7 @@ configurations {
 }
 
 dependencies {
-    inJar 'io.github.vincenzopalazzo:material-ui-swing:1.1.1_beta'
+    inJar 'io.github.vincenzopalazzo:material-ui-swing:1.1.1-rc4'
 }
 
 jar {
@@ -64,7 +64,7 @@ jar {
 
     manifest {
         attributes(
-                'ContainedDeps': 'material-ui-swing-1.1.1_beta.jar'
+                'ContainedDeps': 'material-ui-swing-1.1.1-rc4.jar'
         )
     }
 }
