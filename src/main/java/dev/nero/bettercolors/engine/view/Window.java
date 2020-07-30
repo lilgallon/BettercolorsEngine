@@ -91,9 +91,6 @@ public class Window extends JFrame{
     public static String selectedTheme = THEME_DEFAULT;
     public final static String THEME_OPTION = "theme";
 
-    // If a message comes from this class, we need to append this prefix to the message
-    private final String LOG_PREFIX = "[Gui] ";
-
     /**
      * Creates the GUI
      * @param title window title
@@ -126,7 +123,7 @@ public class Window extends JFrame{
             );
         } catch (Exception e) {
             e.printStackTrace();
-            addText(LOG_PREFIX + "Failed to load images/bettercolors_symbol.png", Color.RED, true);
+            WARN("Failed to load images/bettercolors_symbol.png");
         }
 
         // It is possible to resize the GUI
@@ -156,7 +153,7 @@ public class Window extends JFrame{
             gEnv.registerFont(consoleFont);
             consoleFont = consoleFont.deriveFont(14f);
         } catch (Exception e) {
-            this.addText(LOG_PREFIX + "Could not load the CascadiaCode font", Color.ORANGE, true);
+            WARN("Could not load the CascadiaCode font");
             e.printStackTrace();
         }
 
@@ -171,9 +168,9 @@ public class Window extends JFrame{
         this.setupMenuBar(version);
 
         // Header (ready if needed)
-        // JPanel header_layout = new JPanel();
-        // header_layout.setLayout(new BorderLayout());
-        // setupHeader(header_layout);
+        // JPanel headerLayour = new JPanel();
+        // headerLayour.setLayout(new BorderLayout());
+        // setupHeader(headerLayour);
 
         // Modules & console
         JPanel mainPanel = new JPanel();
@@ -188,7 +185,7 @@ public class Window extends JFrame{
         setupFooter(footerPanel); // Creates the footer with the version status
 
         // Now we can add the layouts to the window
-        // getContentPane().add(header_layout, "North");
+        // getContentPane().add(headerLayour, "North");
         getContentPane().add(mainPanel, "Center");
         getContentPane().add(footerPanel, "South");
 
@@ -288,7 +285,7 @@ public class Window extends JFrame{
         menuBar.add(themes);
 
         // We want an other menu for the user to report a bug
-        JMenu report_menu = new JMenu("Found a bug?");
+        JMenu reportMenu = new JMenu("Found a bug?");
         JMenuItem report = new JMenuItem("Report it");
         report.addActionListener(
                 (event) -> {
@@ -299,8 +296,8 @@ public class Window extends JFrame{
                     }
                 }
         );
-        report_menu.add(report);
-        menuBar.add(report_menu);
+        reportMenu.add(report);
+        menuBar.add(reportMenu);
 
         // Last thing that we need is to show if the current version is the last one
         JLabel update = new JLabel();
@@ -312,11 +309,11 @@ public class Window extends JFrame{
                 case DEVELOPMENT:
                     update.setForeground(new Color(150, 70, 0));
                     update.setText("Development build");
-                    addText("\nYou are using a development build", Color.ORANGE, true);
+                    WARN("\nYou are using a development build");
                     break;
                 case UPDATED:
                     update.setText("No update available");
-                    addText("\nYou are using the last version", Color.GREEN, true);
+                    INFO("\n[+] You are using the last version");
                     break;
                 case OUTDATED:
                     update.setForeground(new Color(0, 70, 100));
@@ -335,14 +332,14 @@ public class Window extends JFrame{
                             try {
                                 Desktop.getDesktop().browse(new URI(Reference.DOWNLOAD_URL));
                             } catch (URISyntaxException | IOException ex) {
-                                addText("Error while trying to go to the download page", Color.RED, true);
-                                addText("Here is the download page: " + Reference.DOWNLOAD_URL, Color.RED, true);
+                                ERROR("Error while trying to go to the download page");
+                                ERROR("Here is the download page: " + Reference.DOWNLOAD_URL);
                             }
                         }
                     });
 
                     // Show the changelog
-                    addText("\nUpdate available! Changelog:", Color.ORANGE, true);
+                    WARN("\nUpdate available! Changelog:");
                     String[] lines = latest.getChangelog().split("\\\\n");
                     for(String line : lines) {
                         String[] split = line.split("\\*\\*");
@@ -367,20 +364,20 @@ public class Window extends JFrame{
                 case NO_INTERNET:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("Could not check the version");
-                    addText("\nCould not check the version", Color.RED, true);
-                    addText("If you are not connected to internet, it's normal", Color.RED, true);
+                    ERROR("\nCould not check the version");
+                    ERROR("If you are not connected to internet, it's normal");
                     break;
                 case URL_ISSUE:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("URL issue");
-                    addText("\nCould not read the URL to check for the version", Color.RED, true);
-                    addText("It should not happen, you can open an issue to github", Color.RED, true);
+                    ERROR("\nCould not read the URL to check for the version");
+                    ERROR("It should not happen, you can open an issue to github");
                     break;
                 case NO_VERSION:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("No version found");
-                    addText("\nNo version found, was bettercolors released for MC " + Reference.MC_VERSION + "?", Color.RED, true);
-                    addText("If yes, then the API may have changed, you can open an issue to github", Color.RED, true);
+                    ERROR("\nNo version found, was bettercolors released for MC " + Reference.MC_VERSION + "?");
+                    ERROR("If yes, then the API may have changed, you can open an issue to github");
                     break;
             }
         }
@@ -391,7 +388,7 @@ public class Window extends JFrame{
     }
 
     /*
-    private void setupHeader(JPanel header_layout){
+    private void setupHeader(JPanel headerLayour){
         // READY TO GET IMPLEMENTED IF NEEDED
     }
     */
@@ -464,7 +461,7 @@ public class Window extends JFrame{
             // is true or false (so we need checkboxes to render it)
             ArrayList<ToggleOption> toggleOptions = Option.getToggleOptions(module.getOptions());
             // Yes, there is a warning, because at the moment, all the modules have toggle options, so it is always true
-            if(toggleOptions != null) {
+            if(toggleOptions.size() > 0) {
                 // We will render checkboxes in a grid with a maximum of 2 columns per lines
                 JPanel checkboxesPanel = new JPanel();
                 checkboxesPanel.setLayout(new GridLayout((int) Math.ceil((double)toggleOptions.size() / 2d), 2));
@@ -586,7 +583,7 @@ public class Window extends JFrame{
                 tabbedPane.addTab(module.getName(), icon, content);
             } catch (Exception e) {
                 e.printStackTrace();
-                addText(LOG_PREFIX + "Failed to load images/" + module.getSymbol(), Color.RED, true);
+                WARN("Failed to load images/" + module.getSymbol());
                 tabbedPane.addTab(module.getName(), content);
             }
         }
@@ -686,7 +683,7 @@ public class Window extends JFrame{
         list.setSelectedIndex(filenames.indexOf(SettingsUtils.SETTINGS_FILENAME));
         configPanel.add(new JScrollPane(list), "Center");
 
-        // Now we want the buttons to load, open and refresh
+        // Now we want the buttons to load, open, refresh and reset (to default)
         JPanel buttons = new JPanel();
         buttons.setLayout(new FlowLayout());
 
@@ -707,22 +704,8 @@ public class Window extends JFrame{
             propertiesFiler.write(option, false);
 
             // Load the settings (the code is designed for it to be very simple)
-            Map<String, String> options = SettingsUtils.getOptions();
-            for(Module module : MODULES){
-                module.setOptions(options);
-                module.setActivated(Boolean.parseBoolean(options.get(module.getClass().getSimpleName())));
-            }
-
-            // Update the toggle key and the HUD
-            Window.TOGGLE_KEY = Integer.parseInt(options.get(Window.TOGGLE_KEY_OPTION));
-            Window.TOGGLE_KEY_NAME = "code: " + Window.TOGGLE_KEY;
+            this.loadSettings();
             keybind.setText("Change the key to toggle the GUI [" + Window.TOGGLE_KEY_NAME + "]");
-
-            // Tell the user that we loaded the settings file
-            addText(LOG_PREFIX + "Loaded \"" + SettingsUtils.SETTINGS_FILENAME + "\".", true);
-
-            // Synchronize all the components of the GUI using the arrays that we created for the modules' components
-            synchronizeComponents();
         });
         buttons.add(select_button);
 
@@ -732,7 +715,7 @@ public class Window extends JFrame{
             try {
                 Desktop.getDesktop().open(Filer.getSettingsDirectory());
             } catch (IOException e1) {
-                addText(LOG_PREFIX + "unable to open the settings directory !", Color.RED, true);
+                ERROR("Unable to open the settings directory !");
             }
         });
         buttons.add(openButton);
@@ -745,14 +728,30 @@ public class Window extends JFrame{
             list.setModel(newList);
             list.setSelectedIndex(SettingsUtils.getAllSettingsFilenames().indexOf(SettingsUtils.SETTINGS_FILENAME));
             if(length_diff == 0){
-                addText(LOG_PREFIX + "No new files found.", true);
+                INFO("[+] No new files found");
             }else if(length_diff == 1){
-                addText(LOG_PREFIX + "Found " + length_diff + " new file.", true);
+                INFO("[+] Found " + length_diff + " new file");
             }else if(length_diff > 1){
-                addText(LOG_PREFIX + "Found " + length_diff + " new files.", true);
+                INFO("[+] Found " + length_diff + " new files");
             }
         });
         buttons.add(refresh_button);
+
+        // Reset the current config file to default
+        JButton resetButton = new JButton("Reset");
+        resetButton.addActionListener(e -> {
+            // get default options
+            ArrayList<ArrayList<Option>> options = BettercolorsEngine.getInstance().getDefaultOptions();
+
+            // save them (and override what's currently in the config file)
+            SettingsUtils.setOptions(options, false);
+
+            // load them
+            this.loadSettings();
+            keybind.setText("Change the key to toggle the GUI [" + Window.TOGGLE_KEY_NAME + "]");
+        });
+        buttons.add(resetButton);
+
         configPanel.add(buttons, "South");
 
         // Add a specific icon to the settings management tab
@@ -767,7 +766,7 @@ public class Window extends JFrame{
             tabbedPane.addTab("Settings", icon, settingsPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            addText(LOG_PREFIX + "Failed to load images/settings_symbol.png", Color.RED, true);
+            WARN("Failed to load images/settings_symbol.png");
             tabbedPane.addTab("Settings", settingsPanel);
         }
 
@@ -820,7 +819,7 @@ public class Window extends JFrame{
             tabbedPane.addTab("Friends", icon, friendListPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            addText(LOG_PREFIX + "Failed to load images/sprint_symbol.png", Color.RED, true);
+            WARN("Failed to load images/sprint_symbol.png");
             tabbedPane.addTab("Friends", friendListPanel);
         }
     }
@@ -883,6 +882,28 @@ public class Window extends JFrame{
     }
 
     /**
+     * Loads the settings file and synchronizes EVERYTHING
+     */
+    private void loadSettings() {
+        Map<String, String> options = SettingsUtils.getOptions();
+        for(Module module : MODULES){
+            module.setOptions(options);
+            module.setActivated(Boolean.parseBoolean(options.get(module.getClass().getSimpleName())));
+        }
+
+        // Update the toggle key and the HUD
+        Window.TOGGLE_KEY = Integer.parseInt(options.get(Window.TOGGLE_KEY_OPTION));
+        Window.TOGGLE_KEY_NAME = "code: " + Window.TOGGLE_KEY;
+        BettercolorsEngine.VERBOSE = Boolean.parseBoolean(options.get(BettercolorsEngine.DEBUG_OPTION));
+
+        // Tell the user that we loaded the settings file
+        INFO( "[+] Loaded \"" + SettingsUtils.SETTINGS_FILENAME + "\"");
+
+        // Synchronize all the components of the GUI using the arrays that we created for the modules' components
+        synchronizeComponents();
+    }
+
+    /**
      * Updates the friend list (only visually!!!). To get the friend list, use the Friends class.
      */
     public void updateFriends() {
@@ -911,6 +932,35 @@ public class Window extends JFrame{
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Logs an information message to the console.
+     * No prefix added to the message. Conventions:
+     * - [+] For success
+     * - [~] For something in progress
+     * @param text text to log
+     */
+    public static void INFO(String text) {
+        LOG(LogLevel.INFO, text);
+    }
+
+    /**
+     * Logs a warning message to the console.
+     * [*] prefix will automatically be added. Use Window#LOG to log something without the prefix.
+     * @param text text to log
+     */
+    public static void WARN(String text) {
+        LOG(LogLevel.WARNING, "[*] " + text);
+    }
+
+    /**
+     * Logs an error message to the console.
+     * [!] prefix will automatically be added. Use Window#LOG to log something without the prefix.
+     * @param text text to log
+     */
+    public static void ERROR(String text) {
+        LOG(LogLevel.ERROR, "[!] " + text);
     }
 
     public static void LOG(LogLevel logLevel, String text) {

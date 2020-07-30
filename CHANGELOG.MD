@@ -38,3 +38,4 @@ The engine takes into account the forge design change in 1.13 and above, and wor
 - Added a lot of logging message during engine's startup. Also improved the way to log messages to the console
 - Better config file loader: it automatically updates the config file with the missing fields if there're any. It will prevent weird crashes that are complicated to understand for the user
 - Added an utility function to Window class to show a dialog window (Window#dialog)
+- Added a reset to default button to reset the settings to default

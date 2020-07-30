@@ -57,7 +57,7 @@ import java.util.Map;
 public class BettercolorsEngine {
 
     public static boolean VERBOSE = false;
-    private final String DEBUG_OPTION = "debug";
+    public static final String DEBUG_OPTION = "debug";
     public static Minecraft MC;
     public static BettercolorsEngine instance;
 
@@ -75,6 +75,8 @@ public class BettercolorsEngine {
         public int i;
         public boolean b;
     }
+
+    private HashMap<Class<? extends Module>, IntAndBoolean> modulesAndDetails;
 
     protected ArrayList<Module> modules;
     private Window window;
@@ -123,6 +125,8 @@ public class BettercolorsEngine {
         Reference.RELEASES_URL = releasesUrl;
         Reference.ISSUES_TRACKER_URL = issuesTrackerUrl;
         Reference.DOWNLOAD_URL = downloadUrl;
+
+        this.modulesAndDetails = modulesAndDetails;
 
         // Used to know if the mod is being built with the new forge api or not (>=1.13 is new, <1.13 is old)
         Reference.FORGE_API = (
@@ -178,82 +182,14 @@ public class BettercolorsEngine {
         // the options variable.
         Map<String, String> options = SettingsUtils.getOptions();
 
-        // We will load the default settings every time. Because if we make an update, and the user is using an old
-        // config file, we want the config file to be automatically updated with what's missing
-        ArrayList<ArrayList<Option>> modulesOptions = new ArrayList<>();
-        ArrayList<Option> specialOptions = new ArrayList<>();
-
-        for (Map.Entry<Class<? extends Module>, IntAndBoolean> entry : modulesAndDetails.entrySet()) {
-            // We are going to take the default option of each module. The thing is that they're not initialized yet
-            // but we have their classes. We will use java's reflection to call their static methods to get their
-            // default options
-
-            // First we need to get the class
-            Class<Module> moduleClass = (Class<Module>) entry.getKey();
-
-            try {
-                // Then, find the static method that we will use
-                Method method = moduleClass.getMethod("getDefaultOptions");
-                try {
-                    // Call (invoke) that method without arguments. null is used to say that it's static.
-                    ArrayList<Option> defaultOptions = (ArrayList<Option> ) method.invoke(null);
-
-                    // If that module has default options, then we need to add them to the list of options
-                    if (defaultOptions.size() != 0) {
-                        // System.out.println("Got default options for " + moduleClass.getSimpleName());
-                        modulesOptions.add(defaultOptions);
-                    } else {
-                        Window.LOG(
-                                LogLevel.WARNING,
-                                "[!] Could not get default options for " + moduleClass.getSimpleName()
-                        );
-
-                        if (VERBOSE)
-                            System.out.println(
-                                    "If you are the developer you should implement a static method called "
-                                    + "getDefaultOptions which returns an ArrayList<Option>. Return an empty one"
-                                    + "if the module hasn't any option"
-                            );
-                    }
-                } catch (IllegalAccessException e) {
-                    Window.LOG(
-                            LogLevel.ERROR,
-                            "[!] The engine doesn't have access to default options of " +
-                                    moduleClass.getSimpleName()
-                    );
-                } catch (InvocationTargetException e) {
-                    Window.LOG(
-                            LogLevel.ERROR,
-                            "[!] Error caught when trying to get default options of " +
-                                    moduleClass.getSimpleName()
-                    );
-                }
-            } catch (NoSuchMethodException e) {
-                Window.LOG(
-                        LogLevel.WARNING,
-                        "[*] Could not find the method getDefaultOptions associated to class " +
-                                moduleClass.getSimpleName()
-                );
-            }
-
-            // Manually add a debug option to the file (false by default)
-            ToggleOption debug = new ToggleOption("", DEBUG_OPTION, false);
-            specialOptions.add(debug);
-
-            // We also need to add the option that says if the module is activated or not by default
-            // We need to load all the modules and turn them on or off according to what's given
-            specialOptions.add(new ToggleOption("", entry.getKey().getSimpleName(), entry.getValue().b));
-        }
-        modulesOptions.add(specialOptions);
-        Window.LOG(LogLevel.INFO, "[+] Loaded " + SettingsUtils.SETTINGS_FILENAME + "");
-
         if (options == null) {
-            Window.LOG(LogLevel.INFO, "[~] Could not find " + SettingsUtils.SETTINGS_FILENAME + ", creating it");
+            Window.INFO("[~] Could not find " + SettingsUtils.SETTINGS_FILENAME + ", creating it");
             // The file does not exist, so we will create it
-            SettingsUtils.setOptions(modulesOptions, false);
+            SettingsUtils.setOptions(this.getDefaultOptions(), false);
         } else {
+            Window.INFO("[+] Loaded " + SettingsUtils.SETTINGS_FILENAME);
             // The file already exists so we will only save what's missing
-            SettingsUtils.setOptions(modulesOptions, true);
+            SettingsUtils.setOptions(this.getDefaultOptions(), true);
         }
 
         // Now that we are sure that all the options have been loaded, we will send them to our modules while
@@ -285,7 +221,7 @@ public class BettercolorsEngine {
 
                 this.modules.add(module);
                 if (VERBOSE) System.out.println("It worked, " + moduleClass.getSimpleName() + " created!");
-                Window.LOG(LogLevel.INFO, "[+] " + moduleClass.getSimpleName() + " initialized");
+                Window.INFO("[+] " + moduleClass.getSimpleName() + " initialized");
 
             } catch (InstantiationException
                     | IllegalAccessException
@@ -295,7 +231,7 @@ public class BettercolorsEngine {
                 if (VERBOSE) e1.printStackTrace();
 
                 if (e1 instanceof InvocationTargetException) {
-                    Window.LOG(LogLevel.ERROR, "[!] Could not instantiate " + moduleClass.getSimpleName());
+                    Window.ERROR("Could not instantiate " + moduleClass.getSimpleName());
                     if (VERBOSE)
                         System.out.println(
                                 "Exception caught during " + moduleClass.getSimpleName() + " creation"
@@ -317,7 +253,7 @@ public class BettercolorsEngine {
 
                     this.modules.add(module);
                     if (VERBOSE) System.out.println("It worked, " + moduleClass.getSimpleName() + " created!");
-                    Window.LOG(LogLevel.INFO, "[+] " + moduleClass.getSimpleName() + " initialized");
+                    Window.INFO("[+] " + moduleClass.getSimpleName() + " initialized");
 
                 } catch (InstantiationException
                         | IllegalAccessException
@@ -338,9 +274,9 @@ public class BettercolorsEngine {
                             );
                     }
 
-                    Window.LOG(LogLevel.ERROR, "[!] Could not instantiate " + moduleClass.getSimpleName());
-                    Window.LOG(LogLevel.ERROR, "[!] ^ It should not happen. Try to rename the config file " +
-                            "and restart your client so that a new file will be created");
+                    Window.ERROR("Could not instantiate " + moduleClass.getSimpleName());
+                    Window.ERROR("^ It should not happen. Try to rename the config file and restart your client " +
+                            "so that a new file will be created");
 
                     if (VERBOSE) {
                         System.out.println("1: Make sure that your module constructor has object and not type (ex: Integer and not int)");
@@ -397,7 +333,7 @@ public class BettercolorsEngine {
                     }
                 } catch (Exception e) {
                     // Probably an issue with the library used. It should not happen.
-                    Window.LOG(LogLevel.ERROR, "[!] Issue with the MaterialUI themes");
+                    Window.ERROR("Issue with the MaterialUI themes");
                     System.out.println("The following error may be coming from the library used to theme the GUI");
                     e.printStackTrace();
                 }
@@ -507,6 +443,82 @@ public class BettercolorsEngine {
             }
         }
         return null;
+    }
+
+    /**
+     * Make sure that BettercolorsEngine#init has been called before
+     * @return all the loaded modules
+     */
+    public ArrayList<Module> getModules() {
+        return this.modules;
+    }
+
+    /**
+     * @return the default options for each modules, and the default options for the mod (debug mode, key to toggle
+     * window, ...)
+     */
+    public ArrayList<ArrayList<Option>> getDefaultOptions() {
+        ArrayList<ArrayList<Option>> options = new ArrayList<>();
+        ArrayList<Option> specialOptions = new ArrayList<>();
+
+        for (Map.Entry<Class<? extends Module>, IntAndBoolean> entry : this.modulesAndDetails.entrySet()) {
+            // We are going to take the default option of each module. The thing is that they're not initialized yet
+            // but we have their classes. We will use java's reflection to call their static methods to get their
+            // default options
+
+            // First we need to get the class
+            Class<Module> moduleClass = (Class<Module>) entry.getKey();
+
+            try {
+                // Then, find the static method that we will use
+                Method method = moduleClass.getMethod("getDefaultOptions");
+                try {
+                    // Call (invoke) that method without arguments. null is used to say that it's static.
+                    ArrayList<Option> defaultOptions = (ArrayList<Option> ) method.invoke(null);
+
+                    // If that module has default options, then we need to add them to the list of options
+                    if (defaultOptions.size() != 0) {
+                        // System.out.println("Got default options for " + moduleClass.getSimpleName());
+                        options.add(defaultOptions);
+                    } else {
+                        Window.WARN("Could not get default options for " + moduleClass.getSimpleName());
+
+                        if (VERBOSE)
+                            System.out.println(
+                                    "If you are the developer you should implement a static method called "
+                                            + "getDefaultOptions which returns an ArrayList<Option>. Return an empty one"
+                                            + "if the module hasn't any option"
+                            );
+                    }
+                } catch (IllegalAccessException e) {
+                    Window.ERROR(
+                            "The engine doesn't have access to default options of " +
+                            moduleClass.getSimpleName()
+                    );
+                } catch (InvocationTargetException e) {
+                    Window.ERROR(
+                            "Error caught when trying to get default options of " +
+                                    moduleClass.getSimpleName()
+                    );
+                }
+            } catch (NoSuchMethodException e) {
+                Window.WARN(
+                        "[*] Could not find the method getDefaultOptions associated to class " +
+                                moduleClass.getSimpleName()
+                );
+            }
+
+            // Manually add a debug option to the file (false by default)
+            ToggleOption debug = new ToggleOption("", DEBUG_OPTION, false);
+            specialOptions.add(debug);
+
+            // We also need to add the option that says if the module is activated or not by default
+            // We need to load all the modules and turn them on or off according to what's given
+            specialOptions.add(new ToggleOption("", entry.getKey().getSimpleName(), entry.getValue().b));
+        }
+        options.add(specialOptions);
+
+        return options;
     }
 
     /**
