@@ -39,3 +39,6 @@ The engine takes into account the forge design change in 1.13 and above, and wor
 - Better config file loader: it automatically updates the config file with the missing fields if there're any. It will prevent weird crashes that are complicated to understand for the user
 - Added an utility function to Window class to show a dialog window (Window#dialog)
 - Added a reset to default button to reset the settings to default
+- Options classes are now cloneable
+- Improved window's layout
+- Improved versions' compatibility. No need to change the config file when updating the mod. It will automatically add the missing settings in the file if needed.
