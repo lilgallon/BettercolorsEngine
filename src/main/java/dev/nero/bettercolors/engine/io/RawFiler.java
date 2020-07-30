@@ -1,5 +1,7 @@
 package dev.nero.bettercolors.engine.io;
 
+import dev.nero.bettercolors.engine.BettercolorsEngine;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
