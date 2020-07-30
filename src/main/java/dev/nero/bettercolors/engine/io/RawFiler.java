@@ -68,8 +68,10 @@ public class RawFiler extends Filer {
         try {
             return new ArrayList<>(Files.readAllLines(Paths.get(getCompeletePath()), StandardCharsets.UTF_8));
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Failed to read file " + getCompeletePath());
+            if (BettercolorsEngine.VERBOSE) {
+                e.printStackTrace();
+                System.out.println("Failed to read file " + getCompeletePath());
+            }
             return null;
         }
     }
