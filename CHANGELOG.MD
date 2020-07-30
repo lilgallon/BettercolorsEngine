@@ -42,3 +42,7 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 - Options classes are now cloneable
 - Improved window's layout
 - Improved versions' compatibility. No need to change the config file when updating the mod. It will automatically add the missing settings in the file if needed.
+
+**Version 0.3.1**
+- Fixed a crash when the friends file does not exist
+- Removed error message when a file does not exist if debug = false
