@@ -302,6 +302,8 @@ public class Window extends JFrame{
         // Last thing that we need is to show if the current version is the last one
         JLabel update = new JLabel();
 
+        addText("", true);
+
         try {
             Version latest = Version.getLatestVersion(Reference.MC_VERSION);
             Version.VersionDiff diff = version.compareWith(latest);
@@ -309,11 +311,11 @@ public class Window extends JFrame{
                 case DEVELOPMENT:
                     update.setForeground(new Color(150, 70, 0));
                     update.setText("Development build");
-                    WARN("\nYou are using a development build");
+                    WARN("You are using a development build");
                     break;
                 case UPDATED:
                     update.setText("No update available");
-                    INFO("\n[+] You are using the last version");
+                    INFO("[+] You are using the last version");
                     break;
                 case OUTDATED:
                     update.setForeground(new Color(0, 70, 100));
@@ -339,7 +341,7 @@ public class Window extends JFrame{
                     });
 
                     // Show the changelog
-                    WARN("\nUpdate available! Changelog:");
+                    WARN("Update available! Changelog:");
                     String[] lines = latest.getChangelog().split("\\\\n");
                     for(String line : lines) {
                         String[] split = line.split("\\*\\*");
@@ -364,19 +366,19 @@ public class Window extends JFrame{
                 case NO_INTERNET:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("Could not check the version");
-                    ERROR("\nCould not check the version");
+                    ERROR("Could not check the version");
                     ERROR("If you are not connected to internet, it's normal");
                     break;
                 case URL_ISSUE:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("URL issue");
-                    ERROR("\nCould not read the URL to check for the version");
+                    ERROR("Could not read the URL to check for the version");
                     ERROR("It should not happen, you can open an issue to github");
                     break;
                 case NO_VERSION:
                     update.setForeground(new Color(100, 0, 0));
                     update.setText("No version found");
-                    ERROR("\nNo version found, was bettercolors released for MC " + Reference.MC_VERSION + "?");
+                    ERROR("No version found, was bettercolors released for MC " + Reference.MC_VERSION + "?");
                     ERROR("If yes, then the API may have changed, you can open an issue to github");
                     break;
             }

@@ -503,7 +503,7 @@ public class BettercolorsEngine {
                 }
             } catch (NoSuchMethodException e) {
                 Window.WARN(
-                        "[*] Could not find the method getDefaultOptions associated to class " +
+                        "Could not find the method getDefaultOptions associated to class " +
                                 moduleClass.getSimpleName()
                 );
             }
