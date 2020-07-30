@@ -27,8 +27,8 @@ Utility:
 - `KEY_HANDLER` That field is available to module to know if the user is attacking or using an item (it takes the key the user binded to attack and use)
 
 **Version 0.2.0**
-
 The engine takes into account the forge design change in 1.13 and above, and works with all versions of Forge (at least from 1.8.9 to 1.16.1)
+Only one version of the Engine for any Forge Version (0.1.0 had two differents versions: OF and NF for respectively the old forge and the new forge design)
 
 **Version 0.3.0**
 - Added a friend list fully integrated with the GUI (you can use the Friends utility class)
