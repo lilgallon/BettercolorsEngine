@@ -46,3 +46,5 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 **Version 0.3.1**
 - Fixed a crash when the friends file does not exist
 - Removed error message when a file does not exist if debug = false
+- Fix error messages with getDefaultOptions
+- Added onToggle listener to Module class
