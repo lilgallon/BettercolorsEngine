@@ -742,12 +742,11 @@ public class Window extends JFrame{
         // Reset the current config file to default
         JButton resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> {
+            INFO("[~] Resetting " + SettingsUtils.SETTINGS_FILENAME + "...");
             // get default options
             ArrayList<ArrayList<Option>> options = BettercolorsEngine.getInstance().getDefaultOptions();
-
             // save them (and override what's currently in the config file)
             SettingsUtils.setOptions(options, false);
-
             // load them
             this.loadSettings();
             keybind.setText("Change the key to toggle the GUI [" + Window.TOGGLE_KEY_NAME + "]");

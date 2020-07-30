@@ -63,4 +63,13 @@ public class ValueFloatOption extends Option{
     void saveOption() {
         SettingsUtils.setOption(PREFIX + "_" + NAME, Float.toString(val));
     }
+
+    @Override
+    public Object clone() {
+        return new ValueFloatOption(
+                this.PREFIX, this.NAME,
+                this.getVal(), this.getMin(), this.getMax(),
+                this.getMinorTickSpacing(), this.getMajorTickSpacing()
+        );
+    }
 }

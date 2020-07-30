@@ -274,7 +274,7 @@ public class BettercolorsEngine {
                             );
                     }
 
-                    Window.ERROR("Could not instantiate " + moduleClass.getSimpleName());
+                    Window.ERROR("Could not instantiate " + moduleClass.getSimpleName() + " (second try)");
                     Window.ERROR("^ It should not happen. Try to rename the config file and restart your client " +
                             "so that a new file will be created");
 
@@ -508,14 +508,15 @@ public class BettercolorsEngine {
                 );
             }
 
-            // Manually add a debug option to the file (false by default)
-            ToggleOption debug = new ToggleOption("", DEBUG_OPTION, false);
-            specialOptions.add(debug);
-
             // We also need to add the option that says if the module is activated or not by default
             // We need to load all the modules and turn them on or off according to what's given
             specialOptions.add(new ToggleOption("", entry.getKey().getSimpleName(), entry.getValue().b));
         }
+
+        // Manually add a debug option to the file (false by default)
+        ToggleOption debug = new ToggleOption("", DEBUG_OPTION, false);
+        specialOptions.add(debug);
+
         options.add(specialOptions);
 
         return options;

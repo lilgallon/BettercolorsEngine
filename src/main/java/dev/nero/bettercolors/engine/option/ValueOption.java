@@ -75,4 +75,13 @@ public class ValueOption extends Option {
     void saveOption() {
         SettingsUtils.setOption(PREFIX + "_" + NAME, Integer.toString(val));
     }
+
+    @Override
+    public Object clone() {
+        return new ValueOption(
+                this.PREFIX, this.NAME,
+                this.getVal(), this.getMin(), this.getMax(),
+                this.getMinorTickSpacing(), this.getMajorTickSpacing()
+        );
+    }
 }

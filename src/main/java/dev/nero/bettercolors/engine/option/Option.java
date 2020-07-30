@@ -20,7 +20,7 @@ package dev.nero.bettercolors.engine.option;
 
 import java.util.ArrayList;
 
-public abstract class Option{
+public abstract class Option implements Cloneable {
 
     final String PREFIX;
     final String NAME;
@@ -117,4 +117,7 @@ public abstract class Option{
         }
         return obj == this;
     }
+
+    @Override
+    public abstract Object clone();
 }
