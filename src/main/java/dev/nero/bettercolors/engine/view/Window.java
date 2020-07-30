@@ -444,7 +444,6 @@ public class Window extends JFrame{
     private void setupModulesOptions(JPanel modulesPanel){
         // As stated in the method's header, we will create a tab for each module. To do so, we will use a JTabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setPreferredSize(new Dimension(100, 350));
 
         for(Module module : MODULES){
             // If the module does not have any settings to customize, then it does not need a tab
@@ -520,9 +519,6 @@ public class Window extends JFrame{
                     // The label contains the value next to the its name
                     final JLabel label = new JLabel(valueOption.getName() + " [" + value + "]");
                     final JSlider slider = new JSlider();
-
-                    // Preferred size
-                    slider.setPreferredSize(new Dimension(WIDTH/2, 10));
 
                     // Slider value settings
                     // if decimal, multiply by 100 bc the sliders only support int. Then Divide by 100 to get the
