@@ -631,7 +631,7 @@ public class Window extends JFrame{
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if(dialog.isVisible()) {
-                        int code = Keymap.map(e.getKeyCode(), Reference.FORGE_API == BettercolorsEngine.FORGE.NEW);
+                        int code = Keymap.map(e.getKeyCode(), Reference.MC_INPUTS_VERSION == BettercolorsEngine.MC_INPUTS.NEW);
 
                         if (code == -2) {
                             JOptionPane.showMessageDialog(Window.instance, "This key is not supported, please use an other one");

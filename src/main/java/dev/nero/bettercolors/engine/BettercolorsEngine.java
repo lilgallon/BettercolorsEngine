@@ -26,7 +26,6 @@ import dev.nero.bettercolors.engine.utils.KeysManager;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.version.Version;
-import dev.nero.bettercolors.engine.view.LogLevel;
 import dev.nero.bettercolors.engine.view.Window;
 import mdlaf.MaterialLookAndFeel;
 import mdlaf.themes.JMarsDarkTheme;
@@ -60,7 +59,7 @@ public class BettercolorsEngine {
     public static BettercolorsEngine instance;
 
     // Used to know if the mod is being built with the new forge api or not (>=1.13 is new, <1.13 is old)
-    public enum FORGE { NEW, OLD }
+    public enum MC_INPUTS { NEW, OLD }
 
     public static class Key {
         public Key(int code, String name) { this.code = code; this.name = name; }
@@ -89,6 +88,8 @@ public class BettercolorsEngine {
      * -> Needs to be called first after or before registering forge event
      *
      * @param modVersion the mod version (ex: 6.2.0 for minecraft 1.8.9)
+     * @param versionSuffix the mod version prefix (ex: fa for fabric, fo for forge, or even nothing). It will be
+     *                      added to the end of the version to find the github tag. Ex: 6.2.0-MC1.8.9fa (fa here)
      * @param mcVersion the minecraft version (ex: 1.8.9)
      * @param releasesUrl the github releases page
      * @param issuesTrackerUrl the issues tracker url
@@ -99,6 +100,7 @@ public class BettercolorsEngine {
      */
     public void init(
             String modVersion,
+            String versionSuffix,
             String mcVersion,
             String releasesUrl,
             String issuesTrackerUrl,
@@ -115,6 +117,7 @@ public class BettercolorsEngine {
                 modVersion.split("b").length > 1 ? Integer.parseInt(modVersion.split("b")[1]) : 0,
                 ""
         );
+        Reference.VERSION_SUFFIX = versionSuffix;
         Reference.MC_VERSION = mcVersion;
         Reference.RELEASES_URL = releasesUrl;
         Reference.ISSUES_TRACKER_URL = issuesTrackerUrl;
@@ -123,7 +126,7 @@ public class BettercolorsEngine {
         this.modulesAndDetails = modulesAndDetails;
 
         // Used to know if the mod is being built with the new forge api or not (>=1.13 is new, <1.13 is old)
-        Reference.FORGE_API = (
+        Reference.MC_INPUTS_VERSION = (
                 (
                     new Version(
                             Integer.parseInt(mcVersion.split("\\.")[0]),
@@ -136,10 +139,10 @@ public class BettercolorsEngine {
                             13,
                             0
                     )
-                ) == Version.VersionDiff.OUTDATED) ? FORGE.OLD : FORGE.NEW;
+                ) == Version.VersionDiff.OUTDATED) ? MC_INPUTS.OLD : MC_INPUTS.NEW;
 
         if (VERBOSE) {
-            System.out.println((Reference.FORGE_API == FORGE.NEW ? "New " : "Old ") + "Forge API detected.");
+            System.out.println((Reference.MC_INPUTS_VERSION == MC_INPUTS.NEW ? "New " : "Old ") + "MC inputs detected");
         }
 
         // Update the window toggle key with the given one

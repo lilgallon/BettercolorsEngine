@@ -50,7 +50,11 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 - Added onToggle listener to Module class
 
 **Version 1.0.0**
+
 *Works with both Fabric and Forge*
+
 - Added instructions on how to get the material UI library
 - Removed `KEY_HANDLER` from Module class since it was dependent of Minecraft. You need to code it yourself
 - Version class now uses the given releases page URL (instead of the hardcoded one)
+- Refactored FORGE_API to MC_INPUTS_VERSION
+- Added a suffix for the mod version (could be useful to separate forge and fabric versions for example)
