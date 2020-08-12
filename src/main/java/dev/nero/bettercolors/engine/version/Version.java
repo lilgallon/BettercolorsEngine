@@ -115,7 +115,7 @@ public class Version {
     public static Version getLatestVersion(String mcVersion) throws VersionException {
         try {
             // We open the URL and read what's written
-            URL url = new URL(Reference.RELEASES_URL);
+            URL url = new URL(Reference.RELEASES_API_URL);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             String json = in.lines().collect(Collectors.joining());
             in.close();

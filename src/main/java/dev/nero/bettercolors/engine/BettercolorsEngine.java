@@ -91,9 +91,9 @@ public class BettercolorsEngine {
      * @param versionSuffix the mod version prefix (ex: fa for fabric, fo for forge, or even nothing). It will be
      *                      added to the end of the version to find the github tag. Ex: 6.2.0-MC1.8.9fa (fa here)
      * @param mcVersion the minecraft version (ex: 1.8.9)
-     * @param releasesUrl the github releases page
+     * @param releasesApiUrl the github releases API link (ex: https://api.github.com/repos/n3roo/bettercolors/releases)
+     * @param releasesDownloadUrl the download page (ex: https://github.com/n3roo/bettercolors/releases)
      * @param issuesTrackerUrl the issues tracker url
-     * @param downloadUrl the mod download url
      * @param modulesAndDetails the modules with their default state (turned on or off: boolean) and their toggle key
      *                         (int), -1 if they haven't any toggle key.
      * @param keyToToggleWindow the key to toggle the window
@@ -103,9 +103,9 @@ public class BettercolorsEngine {
             String modVersion,
             String versionSuffix,
             String mcVersion,
-            String releasesUrl,
+            String releasesApiUrl,
+            String releasesDownloadUrl,
             String issuesTrackerUrl,
-            String downloadUrl,
             HashMap<Class<? extends Module>, IntAndBoolean> modulesAndDetails,
             Key keyToToggleWindow
         )
@@ -120,9 +120,9 @@ public class BettercolorsEngine {
         );
         Reference.VERSION_SUFFIX = versionSuffix;
         Reference.MC_VERSION = mcVersion;
-        Reference.RELEASES_URL = releasesUrl;
+        Reference.RELEASES_API_URL = releasesApiUrl;
+        Reference.RELEASES_DOWNLOAD_URL = releasesDownloadUrl;
         Reference.ISSUES_TRACKER_URL = issuesTrackerUrl;
-        Reference.DOWNLOAD_URL = downloadUrl;
 
         this.modulesAndDetails = modulesAndDetails;
 

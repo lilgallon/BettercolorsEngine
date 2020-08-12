@@ -26,7 +26,7 @@ public class Reference {
 	public static String MC_VERSION;
 	public static String VERSION_SUFFIX;
 	public static Version MOD_VERSION;
-	public static String RELEASES_URL;
+	public static String RELEASES_API_URL;
+	public static String RELEASES_DOWNLOAD_URL;
 	public static String ISSUES_TRACKER_URL;
-	public static String DOWNLOAD_URL;
 }

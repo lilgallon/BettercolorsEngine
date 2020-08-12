@@ -332,10 +332,10 @@ public class Window extends JFrame{
                         public void mouseClicked(MouseEvent e) {
                             super.mouseClicked(e);
                             try {
-                                Desktop.getDesktop().browse(new URI(Reference.DOWNLOAD_URL));
+                                Desktop.getDesktop().browse(new URI(Reference.RELEASES_DOWNLOAD_URL));
                             } catch (URISyntaxException | IOException ex) {
                                 ERROR("Error while trying to go to the download page");
-                                ERROR("Here is the download page: " + Reference.DOWNLOAD_URL);
+                                ERROR("Here is the download page: " + Reference.RELEASES_DOWNLOAD_URL);
                             }
                         }
                     });
@@ -872,7 +872,7 @@ public class Window extends JFrame{
      */
     private void setupFooter(JPanel footerPanel){
         JLabel credits = new JLabel(
-                "Powered by Bettercolors Engine " + Reference.ENGINE_VERSION
+                " Powered by Bettercolors Engine " + Reference.ENGINE_VERSION
         );
         credits.setFont(new Font(credits.getFont().getFontName(), Font.PLAIN, 12));
         footerPanel.add(credits, "West");
