@@ -539,14 +539,4 @@ public class BettercolorsEngine {
     public static BettercolorsEngine getInstance() {
         return instance;
     }
-
-    /**
-     * @deprecated As of release 0.2.0, replaced by {@link Window#getInstance()}
-     *
-     * @return the GUI
-     */
-    @Deprecated()
-    public Window getWindow() {
-        return this.window;
-    }
 }

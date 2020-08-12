@@ -64,3 +64,4 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 - You don't need to call `System.setProperty("java.awt.headless", "false");` anymore
 - Removed `KEY_HANDLER` from Module class since it was dependent of Minecraft. You need to code it yourself
 - Removed error messages when verbose = false
+- Removed depreciated endpoints

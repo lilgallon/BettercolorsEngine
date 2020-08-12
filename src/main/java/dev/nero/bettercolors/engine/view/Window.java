@@ -985,10 +985,8 @@ public class Window extends JFrame{
      * Adds text to the console
      * @param text the text
      * @param new_line if it should create a new line
-     * @deprecated use Window#log instead, this will be private on the stable release (1.0.0)
      */
-    @Deprecated
-    public void addText(String text, boolean new_line){
+    private void addText(String text, boolean new_line){
         addText(text, Color.WHITE, new_line);
     }
 
@@ -997,10 +995,8 @@ public class Window extends JFrame{
      * @param text the text
      * @param color color of the text
      * @param new_line if it should create a new line
-     * @deprecated use Window#log instead, this will be private on the stable release (1.0.0)
      */
-    @Deprecated
-    public void addText(String text, Color color, boolean new_line){
+    private void addText(String text, Color color, boolean new_line){
         // TODO: remove on 1.0.0 release
         if(this.console == null) {
             waitingMessages.add(new Message(text, color, new_line));
