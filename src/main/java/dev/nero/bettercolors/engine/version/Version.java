@@ -18,6 +18,8 @@
 
 package dev.nero.bettercolors.engine.version;
 
+import dev.nero.bettercolors.engine.Reference;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,8 +32,6 @@ public class Version {
     // Used to delimit the mod version from the MC version
     // A version is written this way: x.y.z-MCa.b.c (ex: 6.0.0-MC1.8.9)
     private final static String MC_PREFIX = "-MC";
-    // This url will be used to get the latest version
-    private final static String RELEASES_URL = "https://api.github.com/repos/n3roo/bettercolors/releases";
 
     // The minecraft version of the mod
     private String mcVersion;
@@ -115,7 +115,7 @@ public class Version {
     public static Version getLatestVersion(String mcVersion) throws VersionException {
         try {
             // We open the URL and read what's written
-            URL url = new URL(RELEASES_URL);
+            URL url = new URL(Reference.RELEASES_URL);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             String json = in.lines().collect(Collectors.joining());
             in.close();
