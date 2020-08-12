@@ -390,9 +390,6 @@ public class BettercolorsEngine {
     public void keyReleased(int code) {
 
         for (Module mod : this.modules){
-            // Update key handler of modules
-            mod.updateKeyHandler();
-
             if (mod.getToggleKey() != -1) { // = if the module has a toggle key
                 if (code == mod.getToggleKey()) {
                     // Toggle the module
