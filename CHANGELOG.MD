@@ -58,3 +58,4 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 - Version class now uses the given releases page URL (instead of the hardcoded one)
 - Refactored FORGE_API to MC_INPUTS_VERSION
 - Added a suffix for the mod version (could be useful to separate forge and fabric versions for example)
+- Added a way to customize the window title and changed footer to "Powered by Bettercolors Engine x.x.x"

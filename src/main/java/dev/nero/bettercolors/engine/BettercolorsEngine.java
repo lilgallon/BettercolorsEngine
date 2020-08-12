@@ -43,9 +43,8 @@ import java.util.Map;
  * Your main class (the one with @Mod annotation) needs to instantiate this one.
  *
  * Stuff to know:
- * - Make sure to write System.setProperty("java.awt.headless", "false"); before calling init() if you're using forge
- *  >= 1.13
- * - The engine is designed to work with any forge version. The only thing that changes is wrapper.Wrapper.
+ * - Make sure to write System.setProperty("java.awt.headless", "false"); before calling init() if you're using MC
+ * >= 1.13
  *
  * Functions to call:
  * - init(...) during forge init
@@ -87,6 +86,7 @@ public class BettercolorsEngine {
      *
      * -> Needs to be called first after or before registering forge event
      *
+     * @param windowTitle the title of the window (hud)
      * @param modVersion the mod version (ex: 6.2.0 for minecraft 1.8.9)
      * @param versionSuffix the mod version prefix (ex: fa for fabric, fo for forge, or even nothing). It will be
      *                      added to the end of the version to find the github tag. Ex: 6.2.0-MC1.8.9fa (fa here)
@@ -99,6 +99,7 @@ public class BettercolorsEngine {
      * @param keyToToggleWindow the key to toggle the window
      */
     public void init(
+            String windowTitle,
             String modVersion,
             String versionSuffix,
             String mcVersion,
@@ -343,7 +344,7 @@ public class BettercolorsEngine {
 
         // We have everything, we can finally create the GUI
         this.window = new Window(
-                "Bettercolors " + Reference.MOD_VERSION.toString(),
+                windowTitle,
                 this.modules,
                 Reference.MOD_VERSION
         );
