@@ -61,5 +61,6 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 - Added `isTriggeredByKeybind` to onToggle function to know if a module has been toggled using key events
 - Version class now uses the given releases page URL (instead of the hardcoded one)
 - Refactored FORGE_API to MC_INPUTS_VERSION
+- You don't need to call `System.setProperty("java.awt.headless", "false");` anymore
 - Removed `KEY_HANDLER` from Module class since it was dependent of Minecraft. You need to code it yourself
 - Removed error messages when verbose = false

@@ -79,6 +79,7 @@ public class BettercolorsEngine {
 
     public BettercolorsEngine() {
         instance = this;
+        System.setProperty("java.awt.headless", "false");
     }
 
     /**
