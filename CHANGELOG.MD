@@ -48,3 +48,8 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 - Removed error message when a file does not exist if debug = false
 - Fix error messages with getDefaultOptions
 - Added onToggle listener to Module class
+
+**Version 1.0.0**
+*Works with both Fabric and Forge*
+- Added instructions on how to get the material UI library
+- Removed `KEY_HANDLER` from Module class since it was dependent of Minecraft. You need to code it yourself

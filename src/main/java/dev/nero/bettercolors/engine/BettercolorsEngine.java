@@ -32,7 +32,6 @@ import mdlaf.MaterialLookAndFeel;
 import mdlaf.themes.JMarsDarkTheme;
 import mdlaf.themes.MaterialLiteTheme;
 import mdlaf.themes.MaterialOceanicTheme;
-import net.minecraft.client.Minecraft;
 
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
@@ -58,7 +57,6 @@ public class BettercolorsEngine {
 
     public static boolean VERBOSE = false;
     public static final String DEBUG_OPTION = "debug";
-    public static Minecraft MC;
     public static BettercolorsEngine instance;
 
     // Used to know if the mod is being built with the new forge api or not (>=1.13 is new, <1.13 is old)
@@ -98,7 +96,6 @@ public class BettercolorsEngine {
      * @param modulesAndDetails the modules with their default state (turned on or off: boolean) and their toggle key
      *                         (int), -1 if they haven't any toggle key.
      * @param keyToToggleWindow the key to toggle the window
-     * @param MC the minecraft instance (Minecraft.getInstance() or Minecraft.getMinecraft() or something)
      */
     public void init(
             String modVersion,
@@ -107,12 +104,9 @@ public class BettercolorsEngine {
             String issuesTrackerUrl,
             String downloadUrl,
             HashMap<Class<? extends Module>, IntAndBoolean> modulesAndDetails,
-            Key keyToToggleWindow,
-            Minecraft MC
+            Key keyToToggleWindow
         )
     {
-        BettercolorsEngine.MC = MC;
-
         Reference.MOD_VERSION = new Version(
                 mcVersion,
                 Integer.parseInt(modVersion.split("\\.")[0]),
