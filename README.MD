@@ -13,7 +13,7 @@ This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/B
 
 ## Support
 
-The engine takes into account the MC input design change of 1.13 and above (glfw vs awt), and works with **all versions of MC** (at least from 1.8.9 to 1.16.2). And should
+The engine takes into account the MC input design change of 1.13 and above (glfw vs vk), and works with **all versions of MC** (at least from 1.8.9 to 1.16.2). And should
 work with future versions of Minecraft.
 
 ## Why?
