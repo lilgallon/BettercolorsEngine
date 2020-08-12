@@ -83,8 +83,7 @@ Real examples:
 
 ## Documentation
 
-*Coming for the first stable release*.
-Check [github projects](https://github.com/N3ROO/BettercolorsEngine/projects) to see the roadmap.
+*Maybe one day...* You can see the examples above for the moment. They use all the features of the engine.
 
 ## Credits & Acknowledgements
 
