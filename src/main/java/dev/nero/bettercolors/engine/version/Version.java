@@ -133,7 +133,7 @@ public class Version {
             String latestVersion = "";
             while (i < tags.length && !found){
                 latestVersion = tags[i].split("\"")[1];
-                if (latestVersion.endsWith(MC_PREFIX + mcVersion)) {
+                if (latestVersion.endsWith(MC_PREFIX + mcVersion + Reference.VERSION_SUFFIX)) {
                     found = true;
                 } else {
                     i ++;
@@ -144,7 +144,7 @@ public class Version {
                 throw new VersionException("No version found", VersionException.Error.NO_VERSION);
             } else {
                 // Remove the minecraft version from the mod version (6.0.0-MC1.15.2 -> 6.0.0)
-                latestVersion = latestVersion.replace(MC_PREFIX + mcVersion, "");
+                latestVersion = latestVersion.replace(MC_PREFIX + mcVersion + Reference.VERSION_SUFFIX, "");
                 // Split the latest version this way: 6.0.0-b1 -> [6.0.0, 1] or 6.0.0 -> [6.0.0]
                 String[] latestVersionSplit = latestVersion.split("-b");
                 // Split the main part of the version this way: 6.1.0 -> [6, 1, 0]
