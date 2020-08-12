@@ -415,7 +415,7 @@ public class Window extends JFrame{
             // When clicked, we need to toggle the module and save its status to the settings file
             checkBox.addActionListener(e -> {
                 // Toggle the module
-                module.toggle();
+                module.toggle(false);
                 // Save the status
                 SettingsUtils.setOption(module.getClass().getSimpleName(), Boolean.toString(module.isActivated()));
                 // Makes sure that there is no desynchronization

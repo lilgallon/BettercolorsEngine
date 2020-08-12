@@ -58,6 +58,7 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 - Added a way to customize the window title and changed footer to "Powered by Bettercolors Engine x.x.x"
 - Added toggleModule utility function to BettercolorsEngine class
 - Added a way to change the release page API
+- Added `isTriggeredByKeybind` to onToggle function to know if a module has been toggled using key events
 - Version class now uses the given releases page URL (instead of the hardcoded one)
 - Refactored FORGE_API to MC_INPUTS_VERSION
 - Removed `KEY_HANDLER` from Module class since it was dependent of Minecraft. You need to code it yourself

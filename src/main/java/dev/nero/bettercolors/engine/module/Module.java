@@ -64,10 +64,12 @@ public abstract class Module {
 
     /**
      * It toggles the module.
+     *
+     * @param isTriggeredByKeybind if true means that the mod has been toggled using key press
      */
-    public void toggle(){
+    public void toggle(boolean isTriggeredByKeybind){
         isActivated = !isActivated;
-        this.onToggle(isActivated);
+        this.onToggle(isActivated, isTriggeredByKeybind);
     }
 
     /**
@@ -131,8 +133,9 @@ public abstract class Module {
      * Used in children to execute some code when they're turning on and off.
      * Only called when toggle() is called by the engine.
      * @param toggle true if turned on, false otherwise
+     * @param isTriggeredByKeybind if true means that the mod has been toggled using key press
      */
-    protected void onToggle(boolean toggle) {}
+    protected void onToggle(boolean toggle, boolean isTriggeredByKeybind) {}
 
     protected static ArrayList<Option> getDefaultOptions() {
         return new ArrayList<>();

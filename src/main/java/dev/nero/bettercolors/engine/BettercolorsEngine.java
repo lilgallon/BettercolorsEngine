@@ -397,7 +397,7 @@ public class BettercolorsEngine {
             if (mod.getToggleKey() != -1) { // = if the module has a toggle key
                 if (code == mod.getToggleKey()) {
                     // Toggle the module
-                    mod.toggle();
+                    mod.toggle(true);
 
                     // Synchronize the window's checkboxes
                     this.window.synchronizeComponents();
