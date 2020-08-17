@@ -677,13 +677,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/settings_symbol.png")
+                                    .getResource("images/key.png")
                     )
             );
             tabbedPane.addTab("Keybinds", icon, togglePanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/settings_symbol.png");
+            WARN("Failed to load images/key.png");
             tabbedPane.addTab("Keybinds", togglePanel);
         }
     }
@@ -788,13 +788,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/settings_symbol.png")
+                                    .getResource("images/settings.png")
                     )
             );
             tabbedPane.addTab("Settings", icon, settingsPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/settings_symbol.png");
+            WARN("Failed to load images/settings.png");
             tabbedPane.addTab("Settings", settingsPanel);
         }
 
@@ -841,13 +841,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/sprint_symbol.png")
+                                    .getResource("images/friends.png")
                     )
             );
             tabbedPane.addTab("Friends", icon, friendListPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/sprint_symbol.png");
+            WARN("Failed to load images/friends.png");
             tabbedPane.addTab("Friends", friendListPanel);
         }
     }

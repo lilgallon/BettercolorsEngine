@@ -83,7 +83,7 @@ Real examples:
 
 ## Documentation
 
-*Maybe one day...* You can see the examples above for the moment. They use all the features of the engine.
+*Will come later on...* You can see the examples above for the moment. They use all the features of the engine.
 
 ## Credits & Acknowledgements
 
