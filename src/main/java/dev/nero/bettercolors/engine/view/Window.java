@@ -304,8 +304,6 @@ public class Window extends JFrame{
         // Last thing that we need is to show if the current version is the last one
         JLabel update = new JLabel();
 
-        addText("", true);
-
         try {
             Version latest = Version.getLatestVersion(Reference.MC_VERSION);
             Version.VersionDiff diff = version.compareWith(latest);
@@ -1092,12 +1090,10 @@ public class Window extends JFrame{
      * @param new_line if it should create a new line
      */
     private void addText(String text, Color color, boolean new_line){
-        // TODO: remove on 1.0.0 release
         if(this.console == null) {
             waitingMessages.add(new Message(text, color, new_line));
             return;
         }
-        // ---------------------------------
 
         this.textCounter ++;
         if(this.textCounter > 30) {
