@@ -911,7 +911,7 @@ public class Window extends JFrame{
      */
     private void setupFooter(JPanel footerPanel){
         JLabel credits = new JLabel(
-                " Powered by Bettercolors Engine " + Reference.ENGINE_VERSION
+                " Powered by Bettercolors Engine " + Reference.ENGINE_VERSION + " "
         );
         credits.setFont(new Font(credits.getFont().getFontName(), Font.PLAIN, 12));
         footerPanel.add(credits, "West");
