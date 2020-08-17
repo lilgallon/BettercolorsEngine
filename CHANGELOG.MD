@@ -60,7 +60,7 @@ versions (1.x.x) will be backwards compatible with this one.
 💥: breaks your mod | 💢 may break your mod
 
 **Big changes:**
-- It is now possible to change the keybind for each module
+- 💥 It is now possible to change the keybind for each module
 - Works with fabric
 - 💥 Removed `KEY_HANDLER` from Module class since it was dependent of Minecraft. You need to code it yourself
 

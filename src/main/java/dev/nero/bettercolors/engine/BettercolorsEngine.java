@@ -22,6 +22,7 @@ import dev.nero.bettercolors.engine.module.Module;
 import dev.nero.bettercolors.engine.io.PropertiesFiler;
 import dev.nero.bettercolors.engine.io.SettingsUtils;
 import dev.nero.bettercolors.engine.utils.Friends;
+import dev.nero.bettercolors.engine.utils.KeyName;
 import dev.nero.bettercolors.engine.utils.KeysManager;
 import dev.nero.bettercolors.engine.option.Option;
 import dev.nero.bettercolors.engine.option.ToggleOption;
@@ -98,6 +99,7 @@ public class BettercolorsEngine {
      * @param modulesAndDetails the modules with their default state (turned on or off: boolean) and their toggle key
      *                         (int), -1 if they haven't any toggle key.
      * @param keyToToggleWindow the key to toggle the window
+     * @param keyNameFunc a function that takes a key code and returns its string representation
      */
     public void init(
             String windowTitle,
@@ -108,7 +110,8 @@ public class BettercolorsEngine {
             String releasesDownloadUrl,
             String issuesTrackerUrl,
             HashMap<Class<? extends Module>, IntAndBoolean> modulesAndDetails,
-            Key keyToToggleWindow
+            Key keyToToggleWindow,
+            KeyName keyNameFunc
         )
     {
         Reference.MOD_VERSION = new Version(
@@ -357,7 +360,8 @@ public class BettercolorsEngine {
         this.window = new Window(
                 windowTitle,
                 this.modules,
-                Reference.MOD_VERSION
+                Reference.MOD_VERSION,
+                keyNameFunc
         );
     }
 

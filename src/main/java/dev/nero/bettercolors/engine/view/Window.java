@@ -28,6 +28,7 @@ import dev.nero.bettercolors.engine.option.ToggleOption;
 import dev.nero.bettercolors.engine.option.ValueFloatOption;
 import dev.nero.bettercolors.engine.option.ValueOption;
 import dev.nero.bettercolors.engine.utils.Friends;
+import dev.nero.bettercolors.engine.utils.KeyName;
 import dev.nero.bettercolors.engine.utils.Keymap;
 import dev.nero.bettercolors.engine.version.Version;
 import dev.nero.bettercolors.engine.version.VersionException;
@@ -37,6 +38,7 @@ import mdlaf.themes.JMarsDarkTheme;
 import mdlaf.themes.MaterialLiteTheme;
 import mdlaf.themes.MaterialOceanicTheme;
 import mdlaf.themes.MaterialTheme;
+import org.lwjgl.glfw.GLFW;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -92,15 +94,21 @@ public class Window extends JFrame{
     public static String selectedTheme = THEME_DEFAULT;
     public final static String THEME_OPTION = "theme";
 
+    // Function used to get the key name
+    private KeyName keyNameFunc;
+
     /**
      * Creates the GUI
      * @param title window title
      * @param modules modules that will be shown in the GUI
      * @param version current version of the mod
+     * @param keyNameFunc a function that takes a key code and returns its string representation
      */
-    public Window(String title, ArrayList<Module> modules, Version version) {
+    public Window(String title, ArrayList<Module> modules, Version version, KeyName keyNameFunc) {
         // It calls the JFrame constructor
         super(title);
+
+        this.keyNameFunc = keyNameFunc;
 
         // The window will try to match these dimensions. If there is blank, it will wrap it to match the given
         // dimensions. Otherwise it will be bigger than that.
@@ -910,7 +918,19 @@ public class Window extends JFrame{
     }
 
     private JButton createKeybindButton(Module module) {
-        JButton button = new JButton( module.getName() + " toggle key: " + module.getToggleKey());
+
+        JButton button;
+        if (module.getToggleKey() != -1) {
+            button = new JButton(
+                module.getName() + " toggle key: " + module.getToggleKey() +
+                        " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+            );
+        } else {
+            button = new JButton(
+                    module.getName() + " no toggle key yet"
+            );
+        }
+
         button.addActionListener(e -> {
             // It creates a popup window
             JDialog dialog = new JDialog(Window.instance, "Waiting for input");
@@ -951,7 +971,10 @@ public class Window extends JFrame{
                             // Save the new key in the settings file
                             SettingsUtils.setOption(module.getPrefix() + "_toggle_key", Integer.toString(code));
                             // Change the label to show the new key used
-                            button.setText(module.getName() + " toggle key: " + module.getToggleKey());
+                            button.setText(
+                                module.getName() + " toggle key: " + module.getToggleKey() +
+                                " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+                            );
                         }
                     }
 
