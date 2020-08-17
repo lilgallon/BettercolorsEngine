@@ -301,6 +301,16 @@ public class BettercolorsEngine {
         // This variable will be shown in the GUI to say what key is currently used to toggle it
         Window.TOGGLE_KEY_NAME =  "code: " + Window.TOGGLE_KEY;
 
+        // Now we do the same thing but for the modules
+        for (Module module : modules) {
+            String optionName = module.getPrefix() + "_toggle_key";
+            try {
+                module.setToggleKey(Integer.parseInt(options.get(optionName)));
+            } catch (Exception ignored) {
+                SettingsUtils.setOption(optionName, Integer.toString(module.getToggleKey()));
+            }
+        }
+
         // We are almost done. We need to initialize everything related to the theme here.
         // We load the default swing theme first, and we store it in "defaultLookAndFeel".
         Window.defaultLookAndFeel = UIManager.getLookAndFeel();

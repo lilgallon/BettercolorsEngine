@@ -31,7 +31,7 @@ import java.util.Map;
 public abstract class Module {
 
     // Utility
-    private final String LOG_PREFIX;
+    private final String PREFIX;
     private String lastLogMessage;
 
     // Module details
@@ -40,7 +40,7 @@ public abstract class Module {
     private final String symbol;
 
     // Module status
-    private final int TOGGLE_KEY;
+    private int toggleKey;
     private boolean isActivated;
 
     /**
@@ -48,14 +48,14 @@ public abstract class Module {
      * @param toggleKey the toggle Key (-1 -> none).
      * @param isActivated the initial state.
      * @param symbol the picture name.
-     * @param log_prefix the prefix for console logging.
+     * @param prefix the prefix for console logging and settings.
      */
-    protected Module(String name, Integer toggleKey, Boolean isActivated, String symbol, String log_prefix){
+    protected Module(String name, Integer toggleKey, Boolean isActivated, String symbol, String prefix){
         this.name = name;
         this.isActivated = isActivated;
-        this.TOGGLE_KEY = toggleKey;
+        this.toggleKey = toggleKey;
         this.symbol = symbol;
-        this.LOG_PREFIX = log_prefix;
+        this.PREFIX = prefix;
 
         lastLogMessage = "";
 
@@ -79,7 +79,7 @@ public abstract class Module {
     protected void logInfo(String msg){
         if(!msg.equalsIgnoreCase(lastLogMessage)) {
             lastLogMessage = msg;
-            Window.LOG(LogLevel.INFO, LOG_PREFIX + " " + msg);
+            Window.LOG(LogLevel.INFO, "[" + PREFIX + "]" + msg);
         }
     }
 
@@ -90,7 +90,7 @@ public abstract class Module {
     protected void logError(String msg){
         if(!msg.equalsIgnoreCase(lastLogMessage)) {
             lastLogMessage = msg;
-            Window.LOG(LogLevel.ERROR, LOG_PREFIX + " " + msg);
+            Window.LOG(LogLevel.ERROR, "[" + PREFIX + "]" + msg);
         }
     }
 
@@ -142,12 +142,14 @@ public abstract class Module {
     }
 
     // Setters
-    public void setActivated(boolean activated){ isActivated = activated; }
+    public void setActivated(boolean activated) { this.isActivated = activated; }
+    public void setToggleKey(int key) { this.toggleKey = key; }
 
     // Getters
     public String getName() { return name; }
-    public int getToggleKey(){ return TOGGLE_KEY; }
+    public int getToggleKey(){ return toggleKey; }
     public boolean isActivated() { return isActivated; }
     public ArrayList<Option> getOptions() { return options; }
-    public String getSymbol(){ return symbol; }
+    public String getSymbol() { return symbol; }
+    public String getPrefix() { return PREFIX; }
 }

@@ -70,6 +70,7 @@ public class Window extends JFrame{
     // we will need to synchronize them at some point
     private final ArrayList<JCheckBox> CHECKBOXES_ACTIVATION;
     private final ArrayList<JCheckBox> CHECKBOXES_MODULES;
+    private final ArrayList<JButton> KEYBIND_BUTTONS;
     private final Map<JLabel, JSlider> SLIDERS_MODULES;
 
     // Used by the console
@@ -139,6 +140,7 @@ public class Window extends JFrame{
         this.MODULES = modules;
         this.CHECKBOXES_ACTIVATION = new ArrayList<>();
         this.CHECKBOXES_MODULES = new ArrayList<>();
+        this.KEYBIND_BUTTONS = new ArrayList<>();
         this.SLIDERS_MODULES = new HashMap<>();
 
         // We want to use a custom font for the console. We will initialize it here
@@ -586,6 +588,9 @@ public class Window extends JFrame{
             }
         }
 
+        // This tab will contain all the buttons to change the modules' toggle key
+        createTogglePanel(tabbedPane);
+
         // Now that we have one tab for each module, we want to create a custom tab for settings management
         createSettingsPanel(tabbedPane);
 
@@ -595,14 +600,14 @@ public class Window extends JFrame{
         modulesPanel.add(tabbedPane, "Center");
     }
 
-    private void createSettingsPanel(JTabbedPane tabbedPane){
-        JPanel settingsPanel = new JPanel();
-        settingsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        settingsPanel.setLayout(new BorderLayout(0, 15));
+    private void createTogglePanel(JTabbedPane tabbedPane) {
+        JPanel togglePanel = new JPanel();
+        togglePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        togglePanel.setLayout(new FlowLayout());
 
         // Used to change the key to toggle the GUI
-        JButton keybind = new JButton("Change the key to toggle the GUI [" + Window.TOGGLE_KEY_NAME + "]");
-        keybind.addActionListener(e -> {
+        JButton keybindGui = new JButton("Gui toggle key: " + Window.TOGGLE_KEY_NAME);
+        keybindGui.addActionListener(e -> {
             // It creates a popup window
             JDialog dialog = new JDialog(Window.instance, "Message");
 
@@ -643,7 +648,7 @@ public class Window extends JFrame{
                             // Save the new key in the settings file
                             SettingsUtils.setOption(Window.TOGGLE_KEY_OPTION, Integer.toString(code));
                             // Change the label to show the new key used
-                            keybind.setText("Change the key to toggle the GUI [" + Window.TOGGLE_KEY_NAME + "]");
+                            keybindGui.setText("Gui toggle key: " + Window.TOGGLE_KEY_NAME);
                         }
                     }
 
@@ -658,7 +663,37 @@ public class Window extends JFrame{
             // Don't forget to show the popup, otherwise it will be hidden
             dialog.setVisible(true);
         });
-        settingsPanel.add(keybind, "North");
+        togglePanel.add(keybindGui);
+
+        for (Module module : MODULES) {
+            JButton keybindButton = createKeybindButton(module);
+            togglePanel.add(keybindButton);
+            this.KEYBIND_BUTTONS.add(keybindButton);
+        }
+
+        this.KEYBIND_BUTTONS.add(keybindGui);
+
+        // Add a specific icon to the keybind management tab
+        try {
+            ImageIcon icon = new ImageIcon(
+                    Objects.requireNonNull(
+                            Thread.currentThread()
+                                    .getContextClassLoader()
+                                    .getResource("images/settings_symbol.png")
+                    )
+            );
+            tabbedPane.addTab("Keybinds", icon, togglePanel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            WARN("Failed to load images/settings_symbol.png");
+            tabbedPane.addTab("Keybinds", togglePanel);
+        }
+    }
+
+    private void createSettingsPanel(JTabbedPane tabbedPane){
+        JPanel settingsPanel = new JPanel();
+        settingsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        settingsPanel.setLayout(new BorderLayout(0, 15));
 
         // Now that we have the button to change the key to toggle the GUI, we want to add a new panel to manage the
         // settings file
@@ -703,7 +738,6 @@ public class Window extends JFrame{
 
             // Load the settings (the code is designed for it to be very simple)
             this.loadSettings();
-            keybind.setText("Change the key to toggle the GUI [" + Window.TOGGLE_KEY_NAME + "]");
         });
         buttons.add(select_button);
 
@@ -745,7 +779,6 @@ public class Window extends JFrame{
             SettingsUtils.setOptions(options, false);
             // load them
             this.loadSettings();
-            keybind.setText("Change the key to toggle the GUI [" + Window.TOGGLE_KEY_NAME + "]");
         });
         buttons.add(resetButton);
 
@@ -878,6 +911,67 @@ public class Window extends JFrame{
         footerPanel.add(credits, "West");
     }
 
+    private JButton createKeybindButton(Module module) {
+        JButton button = new JButton( module.getName() + " toggle key: " + module.getToggleKey());
+        button.addActionListener(e -> {
+            // It creates a popup window
+            JDialog dialog = new JDialog(Window.instance, "Waiting for input");
+
+            // Content of that popup window (html)
+            JLabel msg = new JLabel(
+                "<html>Press a key...<br>" +
+                        "Please note that due to the difference between<br>" +
+                        "VK and GLFW key events, ALT, CTRL and SHIFT<br>" +
+                        "keys do not take into account left / right. Only<br>" +
+                        "the right key is working. So if you choose<br>" +
+                        "the left key, it will register the right one.</html>"
+            );
+
+            // Popup layout
+            msg.setHorizontalAlignment(JLabel.CENTER);
+            dialog.getRootPane().setBorder(new EmptyBorder(10, 10, 10, 10));
+            dialog.setLayout(new BorderLayout(0, 15));
+            dialog.add(msg, "North");
+            dialog.pack();
+            dialog.setLocationRelativeTo(Window.instance);
+
+            // The thing that will retrieve the key pressed by the user
+            dialog.addKeyListener(new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent e) {}
+
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if(dialog.isVisible()) {
+                        int code = Keymap.map(e.getKeyCode(), Reference.MC_INPUTS_VERSION == BettercolorsEngine.MC_INPUTS.NEW);
+
+                        if (code == -2) {
+                            JOptionPane.showMessageDialog(Window.instance, "This key is not supported, please use an other one");
+                        } else {
+                            // Change the key code used
+                            module.setToggleKey(code);
+                            // Save the new key in the settings file
+                            SettingsUtils.setOption(module.getPrefix() + "_toggle_key", Integer.toString(code));
+                            // Change the label to show the new key used
+                            button.setText(module.getName() + " toggle key: " + module.getToggleKey());
+                        }
+                    }
+
+                    // Hide the GUI (it won't trigger event, no worries, it is as if it was turned off)
+                    dialog.setVisible(false);
+                }
+
+                @Override
+                public void keyReleased(KeyEvent e) {}
+            });
+
+            // Don't forget to show the popup, otherwise it will be hidden
+            dialog.setVisible(true);
+        });
+
+        return button;
+    }
+
     /**
      * Loads the settings file and synchronizes EVERYTHING
      */
@@ -886,6 +980,7 @@ public class Window extends JFrame{
         for(Module module : MODULES){
             module.setOptions(options);
             module.setActivated(Boolean.parseBoolean(options.get(module.getClass().getSimpleName())));
+            module.setToggleKey(Integer.parseInt(options.get(module.getPrefix() + "_toggle_key")));
         }
 
         // Update the toggle key and the HUD
@@ -1048,6 +1143,21 @@ public class Window extends JFrame{
                     found = true;
                 }else{
                     ++ i;
+                }
+            }
+        }
+
+        for(JButton keybindButton : KEYBIND_BUTTONS) {
+            String name = keybindButton.getText();
+
+            if (name.startsWith("Gui")) {
+                keybindButton.setText("Gui toggle key: " + Window.TOGGLE_KEY_NAME);
+            } else {
+                for(Module module : MODULES){
+                    if (name.startsWith(module.getName())) {
+                        keybindButton.setText(module.getName() + " toggle key: " + module.getToggleKey());
+                        break;
+                    }
                 }
             }
         }
