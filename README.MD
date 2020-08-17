@@ -8,12 +8,13 @@
     <a href="https://img.shields.io/github/workflow/status/N3ROO/BettercolorsEngine/Build"><img alt="Build Status" src="https://img.shields.io/github/workflow/status/N3ROO/BettercolorsEngine/Build" /></a>
 </p>
 
-A hacking engine that does the annoying part for you. Designed to work with any version of forge.
+A hacking engine that does the annoying part for you. Designed to work with independently of forge and fabric.
 This engine is the one used by the mod [Bettercolors](https://github.com/N3ROO/Bettercolors).
 
 ## Support
 
-The engine takes into account the forge design change in 1.13 and above, and works with **all versions of Forge** (at least from 1.8.9 to 1.16.1).
+The engine takes into account the MC input design change of 1.13 and above (glfw vs vk), and works with **all versions of MC** (at least from 1.8.9 to 1.16.2). And should
+work with future versions of Minecraft.
 
 ## Why?
 
@@ -23,23 +24,66 @@ is handled by the engine (window, parameters, file saving, version checking, and
 Here is what the automatically generated window looks like:
 
 <p align="center">
-    <img alt="features" src="https://raw.githubusercontent.com/N3ROO/BettercolorsEngine/master/.github/features_main_crop500.png" />
+    <img alt="features" src="https://raw.githubusercontent.com/N3ROO/BettercolorsEngine/master/.github/engine_features.png" />
 </p>
 
 ## How to use it
 
-- Download the files (`dev.nero.bettercolors.engine`) and paste them in your project *(a maven package may be published later on)*
-- Create the main class to register your mod with forge
-- Start the engine by giving some information about your mod and the modules that you created
-- Write some modules by extending the Module class
-- That's it. The engine is designed to work for any forge version from 1.8.9 to 1.16.2
+- Download the files ([release page](https://github.com/N3ROO/BettercolorsEngine/releases)) and move them in your project
+- Here is an example on how you could use the engine:
+```java
+void yourInitFunction() {
+    engine = new BettercolorsEngine();
+    engine.init(modules...);
+}
 
-*You also can check [Bettercolors](https://github.com/N3ROO/Bettercolors) 7.x.x when it will be released, it will use the engine.*
+void onRender() {
+    engine.update();
+}
+
+void onKeyPress(k) {
+    engine.keyEvent(k.code, k.pressed);
+}
+```
+- Also the [material UI swing](https://github.com/atarw/material-ui-swing) library is needed.
+Add these lines to the `build.gradle` file:
+```gradle
+configurations {
+    // ... your stuff if you have something already
+
+    // It defines a new configurration called inJar that we will use later on
+    // compile is needed so that the library is recognized by the IDE
+	inJar
+	compile.extendsFrom inJar
+}
+
+dependencies {
+    // ... your stuff if you have something already
+
+    // The library with the inJar configuration that we created previously
+	inJar "io.github.vincenzopalazzo:material-ui-swing:1.1.1"
+}
+
+jar {
+    // ... your stuff if you have something already
+
+    // It will extract all the libraries needed for inJar to be working in the root of the .jar
+    from {
+        configurations.inJar.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+```
+
+Real examples:
+- [Bettercolors 7+ for Forge 1.8.9](https://github.com/N3ROO/Bettercolors/tree/MC_1.8.9)
+- [Bettercolors 7+ for Forge 1.16.1](https://github.com/N3ROO/Bettercolors/tree/MC_1.16.1)
+- [Bettercolors 7+ for Fabric 1.16.2](https://github.com/N3ROO/Bettercolors/tree/MC_1.16.2_fabric)
 
 ## Documentation
 
-*Coming for the first stable release*.
-Check [github projects](https://github.com/N3ROO/BettercolorsEngine/projects) to see the roadmap.
+*Will come later on...* You can see the examples above for the moment. They use all the features of the engine.
 
 ## Credits & Acknowledgements
 

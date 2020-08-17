@@ -1,4 +1,4 @@
-**Version 0.1.0**
+## Version 0.1.0
 
 The engine is designed to work with any forge version: at least from 1.8.9 to 1.16, but it should work with the rest (not tested yet).
 
@@ -26,11 +26,11 @@ Utility:
 - `isInGui` That method is available to modules and returns true whether the player is in a GUI
 - `KEY_HANDLER` That field is available to module to know if the user is attacking or using an item (it takes the key the user binded to attack and use)
 
-**Version 0.2.0**
+## Version 0.2.0
 The engine takes into account the forge design change in 1.13 and above, and works with all versions of Forge (at least from 1.8.9 to 1.16.1)
 Only one version of the Engine for any Forge Version (0.1.0 had two differents versions: OF and NF for respectively the old forge and the new forge design)
 
-**Version 0.3.0**
+## Version 0.3.0
 - Added a friend list fully integrated with the GUI (you can use the Friends utility class)
 - Updated material UI from 1.1.1-beta to 1.1.1-rc4 (5 big updates). Fixes a lot of alignment issues.
 - Added accessors to the main engine class
@@ -43,8 +43,38 @@ Only one version of the Engine for any Forge Version (0.1.0 had two differents v
 - Improved window's layout
 - Improved versions' compatibility. No need to change the config file when updating the mod. It will automatically add the missing settings in the file if needed.
 
-**Version 0.3.1**
+## Version 0.3.1
+
 - Fixed a crash when the friends file does not exist
 - Removed error message when a file does not exist if debug = false
 - Fix error messages with getDefaultOptions
 - Added onToggle listener to Module class
+
+## Version 1.0.0
+
+*Works with both Fabric and Forge*.
+
+It is clearly not backwards compatible. However, the next
+versions (1.x.x) will be backwards compatible with this one.
+
+💥: breaks your mod | 💢 may break your mod
+
+**Big changes:**
+- 💥 It is now possible to change the keybind for each module
+- Works with fabric
+- 💥 Removed `KEY_HANDLER` from Module class since it was dependent of Minecraft. You need to code it yourself
+
+**Small changes:**
+- Added instructions on how to get and build the material UI library automatically
+- 💥 Added a suffix for the mod version (could be useful to separate forge and fabric versions for example)
+- 💥 Added a way to customize the window title and changed footer to "Powered by Bettercolors Engine x.x.x"
+- Added toggleModule utility function to BettercolorsEngine class
+- 💥 Added a way to change the release page API
+- 💥 Added `isTriggeredByKeybind` to onToggle function to know if a module has been toggled using key events
+- 💥 Changed icons & added new ones
+- Linux menu fix
+- Version class now uses the given releases page URL (instead of the hardcoded one)
+- Refactored FORGE_API to MC_INPUTS_VERSION
+- You don't need to call `System.setProperty("java.awt.headless", "false");` anymore
+- Removed error messages when verbose = false
+- 💢 Removed depreciated endpoints

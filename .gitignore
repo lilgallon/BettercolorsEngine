@@ -4,7 +4,8 @@ src/main/resources/META-INF/
 src/main/resources/pack.mcmeta
 src/main/resources/mcmod.info
 src/test/
-#build.gradle
+build.gradle
+gradle.properties
 gradlew
 gradlew.bat
 gradle/
