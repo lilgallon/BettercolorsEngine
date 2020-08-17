@@ -24,7 +24,7 @@ is handled by the engine (window, parameters, file saving, version checking, and
 Here is what the automatically generated window looks like:
 
 <p align="center">
-    <img alt="features" src="https://raw.githubusercontent.com/N3ROO/BettercolorsEngine/master/.github/features_main_crop500.png" />
+    <img alt="features" src="https://raw.githubusercontent.com/N3ROO/BettercolorsEngine/master/.github/engine_features.png" />
 </p>
 
 ## How to use it
