@@ -70,6 +70,7 @@ versions (1.x.x) will be backwards compatible with this one.
 - Added toggleModule utility function to BettercolorsEngine class
 - 💥 Added a way to change the release page API
 - 💥 Added `isTriggeredByKeybind` to onToggle function to know if a module has been toggled using key events
+- Linux menu fix
 - Version class now uses the given releases page URL (instead of the hardcoded one)
 - Refactored FORGE_API to MC_INPUTS_VERSION
 - You don't need to call `System.setProperty("java.awt.headless", "false");` anymore
