@@ -125,6 +125,31 @@ public abstract class Module {
     }
 
     /**
+     * @param index the index of the ValueOption in the options array
+     * @return the option's value
+     */
+    protected int getOptionI(int index) {
+        return ((ValueOption) this.options.get(index)).getVal();
+    }
+
+    /**
+     *
+     * @param index the index of the ValueFloatOption in the options array
+     * @return the option's value
+     */
+    protected float getOptionF(int index) {
+        return ((ValueFloatOption) this.options.get(index)).getVal();
+    }
+
+    /**
+     * @param index the index of the ToggleOption in the options array
+     * @return the option's value
+     */
+    protected boolean getOptionB(int index) {
+        return ((ToggleOption) this.options.get(index)).isActivated();
+    }
+
+    /**
      * Used in children to run the module.
      */
     protected void onUpdate() { }

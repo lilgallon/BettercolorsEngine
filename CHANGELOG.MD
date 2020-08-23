@@ -10,6 +10,7 @@ Backwards compatible.
 **Small changes:**
 - Added TimeHelper#getTimeElapsed()
 - Window toggle key name now uses the keyName lambda function
+- Added Module#getOptionI(idx), Module#getOptionF(idx) & Module#getOptionB(idx)
 
 ## Version 1.0.0
 
