@@ -9,6 +9,7 @@ Backwards compatible.
 
 **Small changes:**
 - Added TimeHelper#getTimeElapsed()
+- Window toggle key name now uses the keyName lambda function
 
 ## Version 1.0.0
 
