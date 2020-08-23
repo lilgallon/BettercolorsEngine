@@ -147,6 +147,46 @@ public abstract class Module {
     }
 
     /**
+     * It loads the "givenOptions" into "this.options" by taking into account the options in "defaultOptions".
+     * @param defaultOptions the module's default options
+     * @param givenOptions the options to load
+     */
+    protected void loadOptionsAccordingTo(ArrayList<Option> defaultOptions, Map<String, String> givenOptions) {
+        this.options = new ArrayList<>();
+
+        for (Option defaultOption : defaultOptions) {
+            Option option = (Option) defaultOption.clone();
+            String name = defaultOption.getCompleteName();
+
+            if (option instanceof ToggleOption) {
+                ((ToggleOption) option).setActivated(
+                        Boolean.parseBoolean(givenOptions.get(name))
+                );
+            } else if (option instanceof ValueOption) {
+                try {
+                    ((ValueOption) option).setVal(
+                            Integer.parseInt(givenOptions.get(name))
+                    );
+                } catch (IllegalArgumentException exc) {
+                    Window.WARN("The option for " + defaultOption.getName() + " is out of bounds, it's not recommended");
+                    Window.WARN(exc.toString());
+                }
+            } else if (option instanceof ValueFloatOption) {
+                try {
+                    ((ValueFloatOption) option).setVal(
+                            Float.parseFloat(givenOptions.get(name))
+                    );
+                } catch (IllegalArgumentException exc) {
+                    Window.WARN("The option for " + defaultOption.getName() + " is out of bounds, it's not recommended");
+                    Window.WARN(exc.toString());
+                }
+            }
+
+            this.options.add(option);
+        }
+    }
+
+    /**
      * @param index the index of the ValueOption in the options array
      * @return the option's value
      */
