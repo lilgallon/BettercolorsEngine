@@ -549,10 +549,20 @@ public class Window extends JFrame{
                         // Change the module's option
                         if (decimal) {
                             newValue = (float) slider.getValue() / 100.0f;
-                            ((ValueFloatOption) valueOption).setVal(newValue);
+                            try {
+                                ((ValueFloatOption) valueOption).setVal(newValue);
+                            } catch (IllegalArgumentException exc) {
+                                Window.WARN("The option for " + valueOption.getName() + " is out of bounds, it's not recommended");
+                                Window.WARN(exc.toString());
+                            }
                         } else {
                             newValue = slider.getValue();
-                            ((ValueOption) valueOption).setVal((int) newValue);
+                            try {
+                                ((ValueOption) valueOption).setVal((int) newValue);
+                            } catch (IllegalArgumentException exc) {
+                                Window.WARN("The option for " + valueOption.getName() + " is out of bounds, it's not recommended");
+                                Window.WARN(exc.toString());
+                            }
                         }
 
                         // Update the label with the slider's new value

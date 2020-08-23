@@ -128,9 +128,19 @@ public abstract class Module {
                 if(this.options.get(index) instanceof ToggleOption){
                     ((ToggleOption) this.options.get(index)).setActivated(Boolean.parseBoolean(optionValue));
                 } else if (this.options.get(index) instanceof ValueOption){
-                    ((ValueOption) this.options.get(index)).setVal(Integer.parseInt(optionValue));
+                    try {
+                        ((ValueOption) this.options.get(index)).setVal(Integer.parseInt(optionValue));
+                    } catch (IllegalArgumentException e) {
+                        Window.WARN("The option for " + optionName + " is out of bounds, it's not recommended");
+                        Window.WARN(e.toString());
+                    }
                 }  else if (this.options.get(index) instanceof ValueFloatOption){
-                    ((ValueFloatOption) this.options.get(index)).setVal(Float.parseFloat(optionValue));
+                    try {
+                        ((ValueFloatOption) this.options.get(index)).setVal(Float.parseFloat(optionValue));
+                    } catch (IllegalArgumentException e) {
+                        Window.WARN("The option for " + optionName + " is out of bounds, it's not recommended");
+                        Window.WARN(e.toString());
+                    }
                 }
             }
         }

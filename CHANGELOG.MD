@@ -4,6 +4,7 @@ Backwards compatible.
 
 **Big changes:**
 - Change module's event system. You can define your own events now. onUpdate is now depreciated.
+- The engine does not crash when an option is out of bounds. It shows a warning message in the console instead.
 
 **Small changes:**
 - Added TimeHelper#getTimeElapsed()
