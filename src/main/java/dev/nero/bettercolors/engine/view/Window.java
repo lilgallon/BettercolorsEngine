@@ -523,6 +523,8 @@ public class Window extends JFrame{
                         max = ((ValueOption) valueOption).getMax();
                     }
 
+                    value = Math.max(min, Math.min(max, value)); // if value < min, value = min, if value > max, value = max
+
                     // The label contains the value next to the its name
                     final JLabel label = new JLabel(valueOption.getName() + " [" + value + "]");
                     final JSlider slider = new JSlider();
@@ -621,7 +623,9 @@ public class Window extends JFrame{
         togglePanel.setLayout(new FlowLayout());
 
         // Used to change the key to toggle the GUI
-        JButton keybindGui = new JButton("Gui toggle key: " + this.keyNameFunc.getKeyName(Window.TOGGLE_KEY));
+        JButton keybindGui = new JButton(
+                "Gui toggle key: " + Window.TOGGLE_KEY + "(" + this.keyNameFunc.getKeyName(Window.TOGGLE_KEY) + ")"
+        );
         keybindGui.addActionListener(e -> {
             // It creates a popup window
             JDialog dialog = new JDialog(Window.instance, "Message");
@@ -661,7 +665,9 @@ public class Window extends JFrame{
                             // Save the new key in the settings file
                             SettingsUtils.setOption(Window.TOGGLE_KEY_OPTION, Integer.toString(code));
                             // Change the label to show the new key used
-                            keybindGui.setText("Gui toggle key: " + keyNameFunc.getKeyName(code));
+                            keybindGui.setText(
+                                    "Gui toggle key: " + Window.TOGGLE_KEY + "(" + keyNameFunc.getKeyName(Window.TOGGLE_KEY) + ")"
+                            );
                         }
                     }
 
@@ -1176,11 +1182,13 @@ public class Window extends JFrame{
             String name = keybindButton.getText();
 
             if (name.startsWith("Gui")) {
-                keybindButton.setText("Gui toggle key: " + this.keyNameFunc.getKeyName(Window.TOGGLE_KEY));
+                keybindButton.setText("Gui toggle key: " + Window.TOGGLE_KEY + "(" + this.keyNameFunc.getKeyName(Window.TOGGLE_KEY) + ")");
             } else {
                 for(Module module : MODULES){
                     if (name.startsWith(module.getName())) {
-                        keybindButton.setText(module.getName() + " toggle key: " + module.getToggleKey());
+                        keybindButton.setText(
+                                module.getName() + " toggle key: " + module.getToggleKey() + "(" + this.keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+                        );
                         break;
                     }
                 }
