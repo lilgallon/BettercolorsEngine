@@ -478,6 +478,18 @@ public class BettercolorsEngine {
     }
 
     /**
+     * Call this method and define your own codes and details. You will then use the onEvent function in your modules,
+     * and you will use those codes and details to differentiate the events (ex: render == 1, packet == 2, ...)
+     * @param code your own event code
+     * @param details your own details (ex: for a packet event, this could be the packet)
+     */
+    public void event(int code, Object details) {
+        for (Module mod : this.modules) {
+            mod.event(code, details);
+        }
+    }
+
+    /**
      * @param name name of the module to get
      * @return the module with the given name, or null if not found
      */

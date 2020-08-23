@@ -96,9 +96,21 @@ public abstract class Module {
 
     /**
      * It updates the module
+     *
+     * @deprecated Use Module#event instead
      */
+    @Deprecated
     public void update(){
         onUpdate();
+    }
+
+    /**
+     * It calls the onEvent method of the module with the event code and its details.
+     * @param code the event code (the client needs to define it)
+     * @param details the details (the client needs to define it)
+     */
+    public void event(int code, Object details) {
+        this.onEvent(code, details);
     }
 
     /**
@@ -151,8 +163,18 @@ public abstract class Module {
 
     /**
      * Used in children to run the module.
+     *
+     * @deprecated use Module#onEvent(int code, Object details) instead
      */
+    @Deprecated
     protected void onUpdate() { }
+
+    /**
+     * Used in children to run the module.
+     * @param code the event code (you need to define it since your modules will use it to differentiate events)
+     * @param details the event details (you need to define it)
+     */
+    abstract void onEvent(int code, Object details);
 
     /**
      * Used in children to execute some code when they're turning on and off.

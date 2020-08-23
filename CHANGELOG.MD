@@ -2,14 +2,12 @@
 
 Backwards compatible.
 
-💥: behaviour of some functions changed
-
 **Big changes:**
-- todo
+- Change module's event system. You can define your own events now. onUpdate is now depreciated.
 
 **Small changes:**
 - Added TimeHelper#getTimeElapsed()
-- Window toggle key name now uses the keyName lambda function
+- Window toggle key name now uses the keyName lambda function. BettercolorsEngine#init is now depreciated
 - Added Module#getOptionI(idx), Module#getOptionF(idx) & Module#getOptionB(idx)
 
 ## Version 1.0.0
