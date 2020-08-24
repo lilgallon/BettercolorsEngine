@@ -12,6 +12,7 @@ Backwards compatible.
 - Window toggle key name now uses the keyName lambda function. BettercolorsEngine#init is now depreciated
 - Added Module#getOptionI(idx), Module#getOptionF(idx) & Module#getOptionB(idx)
 - Options are using spaces instead of "_"
+- Debug option now opens the window by default
 
 ## Version 1.0.0
 
