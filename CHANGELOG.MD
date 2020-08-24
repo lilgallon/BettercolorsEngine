@@ -15,6 +15,7 @@ Backwards compatible.
 - Added Module#getOptionI(idx), Module#getOptionF(idx) & Module#getOptionB(idx)
 - Options are using spaces instead of "_"
 - Debug option now opens the window by default
+- Improved modules' logging and added a logWarn() method
 
 ## Version 1.0.0
 
