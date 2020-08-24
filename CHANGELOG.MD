@@ -7,7 +7,7 @@ Backwards compatible.
 - The engine does not crash when an option is out of bounds. It shows a warning message in the console instead.
 - Added Module#loadOptionsAccordingTo() which will prevent having redundant code
 - Added Module#onOptionChange(option, oldValue) which is triggered when an option is updated
-- Added a description field in options. The window will show a tooltip containing the description when overing the option.
+- Added a description field in options and modules. The window will show a tooltip containing the description when overing the option/module.
 
 **Small changes:**
 - Added TimeHelper#getTimeElapsed()

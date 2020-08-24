@@ -418,6 +418,9 @@ public class Window extends JFrame{
             // Init it according to the module's activation: turned on or off?
             checkBox.setSelected(module.isActivated());
 
+            // Show the module's description when overing the checkbox
+            checkBox.setToolTipText(module.getDescription());
+
             // When clicked, we need to toggle the module and save its status to the settings file
             checkBox.addActionListener(e -> {
                 // Toggle the module
