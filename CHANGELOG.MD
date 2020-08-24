@@ -6,6 +6,7 @@ Backwards compatible.
 - Change module's event system. You can define your own events now. onUpdate is now depreciated.
 - The engine does not crash when an option is out of bounds. It shows a warning message in the console instead.
 - Added Module#loadOptionsAccordingTo() which will prevent having redundant code
+- Added Module#onOptionChange(option, oldValue) which is triggered when an option is updated
 
 **Small changes:**
 - Added TimeHelper#getTimeElapsed()
