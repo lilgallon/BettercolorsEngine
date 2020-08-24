@@ -478,6 +478,7 @@ public class Window extends JFrame{
                 // synchronize checkboxes if the user loads a new settings file)
                 for(ToggleOption toggleOption : toggleOptions){
                     final JCheckBox checkBox = new JCheckBox(toggleOption.getName().replace("_", " "));
+                    checkBox.setToolTipText(toggleOption.getDescription());
                     checkBox.setSelected(toggleOption.isActivated());
                     checkBox.addActionListener(e -> {
                         // Trigger module's option change event
@@ -536,6 +537,9 @@ public class Window extends JFrame{
                     slider.setMinimum(decimal ? (int) (min * 100.0f) : (int) min);
                     slider.setMaximum(decimal ? (int) (max * 100.0f) : (int) max);
                     slider.setValue(decimal ? (int) (value * 100.0f) : (int) value);
+
+                    label.setToolTipText(valueOption.getDescription());
+                    slider.setToolTipText(valueOption.getDescription());
 
                     // Max/min size
                     slider.setMaximumSize(new Dimension(100, 10));
