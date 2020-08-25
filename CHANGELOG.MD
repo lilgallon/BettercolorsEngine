@@ -16,6 +16,7 @@ Backwards compatible.
 - Options are using spaces instead of "_"
 - Debug option now opens the window by default
 - Improved modules' logging and added a logWarn() method
+- Added Window#IMAGES_DIR and Window#FONTS_DIR to change the directory where the resources will be loaded
 
 ## Version 1.0.0
 

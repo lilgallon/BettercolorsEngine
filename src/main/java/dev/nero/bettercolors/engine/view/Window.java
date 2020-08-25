@@ -64,6 +64,10 @@ public class Window extends JFrame{
     public final static String TOGGLE_KEY_OPTION = "toggle_key";
     public static int TOGGLE_KEY;
 
+    //
+    public static String IMAGES_DIR = "images/";
+    public static String FONTS_DIR = "fonts/";
+
     // Modules that will be displayed in the GUI
     private final ArrayList<Module> MODULES;
     // These arrays will by the modules to modify their settings. It is important to have them as attributes because
@@ -125,12 +129,12 @@ public class Window extends JFrame{
             setIconImage(new ImageIcon(Objects.requireNonNull(
                     Thread.currentThread()
                             .getContextClassLoader()
-                            .getResource("images/bettercolors_symbol.png")))
+                            .getResource(IMAGES_DIR + "bettercolors_symbol.png")))
                     .getImage()
             );
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/bettercolors_symbol.png");
+            WARN("Failed to load " + IMAGES_DIR + "bettercolors_symbol.png");
         }
 
         // It is possible to resize the GUI
@@ -155,7 +159,7 @@ public class Window extends JFrame{
         try {
             consoleFont = Font.createFont(
                     Font.TRUETYPE_FONT,
-                    getClass().getResource("/fonts/CascadiaCode.ttf").openStream()
+                    getClass().getResource(FONTS_DIR + "CascadiaCode.ttf").openStream()
             );
             GraphicsEnvironment gEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
             gEnv.registerFont(consoleFont);
@@ -609,13 +613,13 @@ public class Window extends JFrame{
                         Objects.requireNonNull(
                                 Thread.currentThread().
                                         getContextClassLoader().
-                                        getResource("images/" + module.getSymbol())
+                                        getResource(IMAGES_DIR + module.getSymbol())
                         )
                 );
                 tabbedPane.addTab(module.getName(), icon, content);
             } catch (Exception e) {
                 e.printStackTrace();
-                WARN("Failed to load images/" + module.getSymbol());
+                WARN("Failed to load " + IMAGES_DIR + module.getSymbol());
                 tabbedPane.addTab(module.getName(), content);
             }
         }
@@ -713,13 +717,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/key.png")
+                                    .getResource(IMAGES_DIR + "key.png")
                     )
             );
             tabbedPane.addTab("Keybinds", icon, togglePanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/key.png");
+            WARN("Failed to load " + IMAGES_DIR + "key.png");
             tabbedPane.addTab("Keybinds", togglePanel);
         }
     }
@@ -824,13 +828,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/settings.png")
+                                    .getResource(IMAGES_DIR + "settings.png")
                     )
             );
             tabbedPane.addTab("Settings", icon, settingsPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/settings.png");
+            WARN("Failed to load " + IMAGES_DIR + "settings.png");
             tabbedPane.addTab("Settings", settingsPanel);
         }
 
@@ -877,13 +881,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/friends.png")
+                                    .getResource(IMAGES_DIR + "friends.png")
                     )
             );
             tabbedPane.addTab("Friends", icon, friendListPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/friends.png");
+            WARN("Failed to load " + IMAGES_DIR + "friends.png");
             tabbedPane.addTab("Friends", friendListPanel);
         }
     }
@@ -950,8 +954,8 @@ public class Window extends JFrame{
         JButton button;
         if (module.getToggleKey() != -1) {
             button = new JButton(
-                module.getName() + " toggle key: " + module.getToggleKey() +
-                        " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+                    module.getName() + " toggle key: " + module.getToggleKey() +
+                            " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
             );
         } else {
             button = new JButton(
@@ -965,12 +969,12 @@ public class Window extends JFrame{
 
             // Content of that popup window (html)
             JLabel msg = new JLabel(
-                "<html>Press a key...<br>" +
-                        "Please note that due to the difference between<br>" +
-                        "VK and GLFW key events, ALT, CTRL and SHIFT<br>" +
-                        "keys do not take into account left / right. Only<br>" +
-                        "the right key is working. So if you choose<br>" +
-                        "the left key, it will register the right one.</html>"
+                    "<html>Press a key...<br>" +
+                            "Please note that due to the difference between<br>" +
+                            "VK and GLFW key events, ALT, CTRL and SHIFT<br>" +
+                            "keys do not take into account left / right. Only<br>" +
+                            "the right key is working. So if you choose<br>" +
+                            "the left key, it will register the right one.</html>"
             );
 
             // Popup layout
@@ -1000,8 +1004,8 @@ public class Window extends JFrame{
                             SettingsUtils.setOption(module.getPrefix() + "_toggle_key", Integer.toString(code));
                             // Change the label to show the new key used
                             button.setText(
-                                module.getName() + " toggle key: " + module.getToggleKey() +
-                                " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+                                    module.getName() + " toggle key: " + module.getToggleKey() +
+                                            " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
                             );
                         }
                     }
