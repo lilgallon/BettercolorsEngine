@@ -159,7 +159,11 @@ public class Window extends JFrame{
         try {
             consoleFont = Font.createFont(
                     Font.TRUETYPE_FONT,
-                    getClass().getResource(FONTS_DIR + "CascadiaCode.ttf").openStream()
+                    Objects.requireNonNull(
+                            Thread.currentThread().
+                                    getContextClassLoader().
+                                    getResource(FONTS_DIR + "CascadiaCode.ttf")
+                    ).openStream()
             );
             GraphicsEnvironment gEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
             gEnv.registerFont(consoleFont);
