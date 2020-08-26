@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dev.nero</groupId>
+  <artifactId>bettercolors-engine</artifactId>
+  <version>1.1.0</version>
+  <packaging>jar</packaging>
+
+  <name>Bettercolors Engine</name>
+  <description>A minecraft modding engine</description>
+  <url>https://github.com/N3ROO/BettercolorsEngine/</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Lilian Gallon</name>
+      <email>lgallon@ucsc.edu</email>
+      <organization>dev.nero</organization>
+      <organizationUrl>http://nero.dev</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/N3ROO/BettercolorsEngine.git</connection>
+    <developerConnection>scm:git:ssh://github.com:N3ROO/BettercolorsEngine.git</developerConnection>
+    <url>http://github.com/N3ROO/BettercolorsEngine/tree/master</url>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.github.vincenzopalazzo</groupId>
+      <artifactId>material-ui-swing</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+  </dependencies>
+</project>
