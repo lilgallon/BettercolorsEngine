@@ -45,7 +45,7 @@ import java.util.Map;
  *
  * Stuff to know:
  * - Make sure to write System.setProperty("java.awt.headless", "false"); before calling init() if you're using MC
- * >= 1.13
+ * greater or equal to 1.13
  *
  * Functions to call:
  * - init(...) during forge init
@@ -86,7 +86,7 @@ public class BettercolorsEngine {
     /**
      * It initializes everything
      *
-     * -> Needs to be called first after or before registering forge event
+     * Needs to be called first after or before registering forge event
      *
      * @param windowTitle the title of the window (hud)
      * @param modVersion the mod version (ex: 6.2.0 for minecraft 1.8.9)
@@ -127,7 +127,7 @@ public class BettercolorsEngine {
     /**
      * It initializes everything
      *
-     * -> Needs to be called first after or before registering forge event
+     * Needs to be called first after or before registering forge event
      *
      * @param windowTitle the title of the window (hud)
      * @param modVersion the mod version (ex: 6.2.0 for minecraft 1.8.9)

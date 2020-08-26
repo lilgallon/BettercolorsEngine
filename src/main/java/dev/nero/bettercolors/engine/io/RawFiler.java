@@ -69,6 +69,8 @@ public class RawFiler extends Filer {
 
     /**
      * Reads all the lines of the file (returns null if an error occurred)
+     *
+     * @return all the lines of the file (null if an error occured, empty array if no lines)
      */
     public ArrayList<String> readAll() {
         try {

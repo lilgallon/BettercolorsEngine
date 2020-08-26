@@ -25,7 +25,7 @@ public class ToggleOption extends Option {
     private boolean activated;
 
     /**
-     * @param prefix prefix of the option (module name for example) -> used to prevent conflict if some modules have the
+     * @param prefix prefix of the option (module name for example): used to prevent conflict if some modules have the
      *               same option name.
      * @param name name of the option.
      * @param activated the initial state of the option.
@@ -38,7 +38,7 @@ public class ToggleOption extends Option {
     }
 
     /**
-     * @param prefix prefix of the option (module name for example) -> used to prevent conflict if some modules have the
+     * @param prefix prefix of the option (module name for example): used to prevent conflict if some modules have the
      *               same option name.
      * @param name name of the option.
      * @param description the description.

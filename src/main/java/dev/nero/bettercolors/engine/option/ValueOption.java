@@ -29,7 +29,7 @@ public class ValueOption extends Option {
     private int val;
 
     /**
-     * @param prefix prefix of the option (module name for example) -> used to prevent conflict if some modules have
+     * @param prefix prefix of the option (module name for example): used to prevent conflict if some modules have
      *               the same option name.
      * @param name the name.
      * @param val the initial value.
@@ -46,7 +46,7 @@ public class ValueOption extends Option {
     }
 
     /**
-     * @param prefix prefix of the option (module name for example) -> used to prevent conflict if some modules have
+     * @param prefix prefix of the option (module name for example): used to prevent conflict if some modules have
      *               the same option name.
      * @param name the name.
      * @param description the description.
