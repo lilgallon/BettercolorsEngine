@@ -4,8 +4,9 @@
 
 <p align="center">
   <a href="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"><img alt="Release" src="https://img.shields.io/github/release/n3roo/bettercolorsengine.svg"/></a>
-    <a href="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"><img alt="Open issues" src="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"/></a>
     <a href="https://img.shields.io/github/workflow/status/N3ROO/BettercolorsEngine/Build"><img alt="Build Status" src="https://img.shields.io/github/workflow/status/N3ROO/BettercolorsEngine/Build" /></a>
+    <a href="https://maven-badges.herokuapp.com/maven-central/dev.nero/bettercolors-engine"><img alt="Maven" src="https://maven-badges.herokuapp.com/maven-central/dev.nero/bettercolors-engine/badge.svg" /></a>
+    <a href="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"><img alt="Open issues" src="https://img.shields.io/github/issues/n3roo/bettercolorsengine.svg"/></a>
 </p>
 
 A hacking engine that does the annoying part for you. Designed to work with independently of forge and fabric.
