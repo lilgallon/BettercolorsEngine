@@ -30,6 +30,26 @@ Here is what the automatically generated window looks like:
 
 ## How to use it
 
+### 1. Using maven central
+
+You can see the repo here: https://search.maven.org/artifact/dev.nero/bettercolors-engine/1.1.0/jar
+
+Maven:
+```
+<dependency>
+  <groupId>dev.nero</groupId>
+  <artifactId>bettercolors-engine</artifactId>
+  <version>1.1.0</version>
+</dependency>
+```
+
+Gradle:
+```
+implementation 'dev.nero:bettercolors-engine:1.1.0'
+```
+
+### 2. Using the raw source code
+
 - Download the files ([release page](https://github.com/N3ROO/BettercolorsEngine/releases)) and move them in your project
 - Here is an example on how you could use the engine:
 ```java
@@ -38,8 +58,8 @@ void yourInitFunction() {
     engine.init(modules...);
 }
 
-void onRender() {
-    engine.update();
+void yourEvent() {
+    engine.event(eventCode, eventInformation);
 }
 
 void onKeyPress(k) {
