@@ -38,7 +38,6 @@ import mdlaf.themes.JMarsDarkTheme;
 import mdlaf.themes.MaterialLiteTheme;
 import mdlaf.themes.MaterialOceanicTheme;
 import mdlaf.themes.MaterialTheme;
-import org.lwjgl.glfw.GLFW;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -63,8 +62,11 @@ public class Window extends JFrame{
 
     // Used to display / change the key used to toggle the GUI
     public final static String TOGGLE_KEY_OPTION = "toggle_key";
-    public static String TOGGLE_KEY_NAME;
     public static int TOGGLE_KEY;
+
+    //
+    public static String IMAGES_DIR = "images/";
+    public static String FONTS_DIR = "fonts/";
 
     // Modules that will be displayed in the GUI
     private final ArrayList<Module> MODULES;
@@ -127,19 +129,19 @@ public class Window extends JFrame{
             setIconImage(new ImageIcon(Objects.requireNonNull(
                     Thread.currentThread()
                             .getContextClassLoader()
-                            .getResource("images/bettercolors_symbol.png")))
+                            .getResource(IMAGES_DIR + "bettercolors_symbol.png")))
                     .getImage()
             );
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/bettercolors_symbol.png");
+            WARN("Failed to load " + IMAGES_DIR + "bettercolors_symbol.png");
         }
 
         // It is possible to resize the GUI
         setResizable(true);
 
         // The GUI is turned off by default
-        setVisible(false);
+        setVisible(BettercolorsEngine.DEBUG);
 
         // Used to access the class from outside (to add some text in the console for example)
         Window.instance = this;
@@ -157,7 +159,11 @@ public class Window extends JFrame{
         try {
             consoleFont = Font.createFont(
                     Font.TRUETYPE_FONT,
-                    getClass().getResource("/fonts/CascadiaCode.ttf").openStream()
+                    Objects.requireNonNull(
+                            Thread.currentThread().
+                                    getContextClassLoader().
+                                    getResource(FONTS_DIR + "CascadiaCode.ttf")
+                    ).openStream()
             );
             GraphicsEnvironment gEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
             gEnv.registerFont(consoleFont);
@@ -420,6 +426,9 @@ public class Window extends JFrame{
             // Init it according to the module's activation: turned on or off?
             checkBox.setSelected(module.isActivated());
 
+            // Show the module's description when overing the checkbox
+            checkBox.setToolTipText(module.getDescription());
+
             // When clicked, we need to toggle the module and save its status to the settings file
             checkBox.addActionListener(e -> {
                 // Toggle the module
@@ -479,9 +488,12 @@ public class Window extends JFrame{
                 // button will be clicked, and we will add each checkbox in the CHECKBOXES_MODULES array (used to
                 // synchronize checkboxes if the user loads a new settings file)
                 for(ToggleOption toggleOption : toggleOptions){
-                    final JCheckBox checkBox = new JCheckBox(toggleOption.getName());
+                    final JCheckBox checkBox = new JCheckBox(toggleOption.getName().replace("_", " "));
+                    checkBox.setToolTipText(toggleOption.getDescription());
                     checkBox.setSelected(toggleOption.isActivated());
                     checkBox.addActionListener(e -> {
+                        // Trigger module's option change event
+                        module.optionChange(toggleOption, toggleOption.isActivated());
                         // Update the module's option
                         toggleOption.toggle();
                         // Update the checkbox
@@ -524,8 +536,10 @@ public class Window extends JFrame{
                         max = ((ValueOption) valueOption).getMax();
                     }
 
+                    value = Math.max(min, Math.min(max, value)); // if value < min, value = min, if value > max, value = max
+
                     // The label contains the value next to the its name
-                    final JLabel label = new JLabel(valueOption.getName() + " [" + value + "]");
+                    final JLabel label = new JLabel(valueOption.getName().replace("_", " ") + " [" + value + "]");
                     final JSlider slider = new JSlider();
 
                     // Slider value settings
@@ -534,6 +548,9 @@ public class Window extends JFrame{
                     slider.setMinimum(decimal ? (int) (min * 100.0f) : (int) min);
                     slider.setMaximum(decimal ? (int) (max * 100.0f) : (int) max);
                     slider.setValue(decimal ? (int) (value * 100.0f) : (int) value);
+
+                    label.setToolTipText(valueOption.getDescription());
+                    slider.setToolTipText(valueOption.getDescription());
 
                     // Max/min size
                     slider.setMaximumSize(new Dimension(100, 10));
@@ -546,18 +563,35 @@ public class Window extends JFrame{
 
                     // What happens when the user uses the slider
                     slider.addChangeListener(e -> {
+
                         float newValue;
                         // Change the module's option
                         if (decimal) {
                             newValue = (float) slider.getValue() / 100.0f;
-                            ((ValueFloatOption) valueOption).setVal(newValue);
+                            try {
+                                // Trigger module's option change event
+                                module.optionChange(valueOption, ((ValueFloatOption) valueOption).getVal());
+                                // Update the option's value
+                                ((ValueFloatOption) valueOption).setVal(newValue);
+                            } catch (IllegalArgumentException exc) {
+                                Window.WARN("The option for " + valueOption.getName() + " is out of bounds, it's not recommended");
+                                Window.WARN(exc.toString());
+                            }
                         } else {
                             newValue = slider.getValue();
-                            ((ValueOption) valueOption).setVal((int) newValue);
+                            try {
+                                // Trigger module's option change event
+                                module.optionChange(valueOption, ((ValueOption) valueOption).getVal());
+                                // Update the option's value
+                                ((ValueOption) valueOption).setVal((int) newValue);
+                            } catch (IllegalArgumentException exc) {
+                                Window.WARN("The option for " + valueOption.getName() + " is out of bounds, it's not recommended");
+                                Window.WARN(exc.toString());
+                            }
                         }
 
                         // Update the label with the slider's new value
-                        label.setText(valueOption.getName() + " [" + newValue + "]");
+                        label.setText(valueOption.getName().replace("_", " ") + " [" + newValue + "]");
                         // Update the GUI
                         repaint();
                     });
@@ -583,13 +617,13 @@ public class Window extends JFrame{
                         Objects.requireNonNull(
                                 Thread.currentThread().
                                         getContextClassLoader().
-                                        getResource("images/" + module.getSymbol())
+                                        getResource(IMAGES_DIR + module.getSymbol())
                         )
                 );
                 tabbedPane.addTab(module.getName(), icon, content);
             } catch (Exception e) {
                 e.printStackTrace();
-                WARN("Failed to load images/" + module.getSymbol());
+                WARN("Failed to load " + IMAGES_DIR + module.getSymbol());
                 tabbedPane.addTab(module.getName(), content);
             }
         }
@@ -612,7 +646,9 @@ public class Window extends JFrame{
         togglePanel.setLayout(new FlowLayout());
 
         // Used to change the key to toggle the GUI
-        JButton keybindGui = new JButton("Gui toggle key: " + Window.TOGGLE_KEY_NAME);
+        JButton keybindGui = new JButton(
+                "Gui toggle key: " + Window.TOGGLE_KEY + "(" + this.keyNameFunc.getKeyName(Window.TOGGLE_KEY) + ")"
+        );
         keybindGui.addActionListener(e -> {
             // It creates a popup window
             JDialog dialog = new JDialog(Window.instance, "Message");
@@ -647,14 +683,14 @@ public class Window extends JFrame{
                         if (code == -2) {
                             JOptionPane.showMessageDialog(Window.instance, "This key is not supported, please use an other one");
                         } else {
-                            // Change the message that shows the current key used
-                            Window.TOGGLE_KEY_NAME = e.getKeyChar() + " code: " + code;
                             // Change the key code used
                             Window.TOGGLE_KEY = code;
                             // Save the new key in the settings file
                             SettingsUtils.setOption(Window.TOGGLE_KEY_OPTION, Integer.toString(code));
                             // Change the label to show the new key used
-                            keybindGui.setText("Gui toggle key: " + Window.TOGGLE_KEY_NAME);
+                            keybindGui.setText(
+                                    "Gui toggle key: " + Window.TOGGLE_KEY + "(" + keyNameFunc.getKeyName(Window.TOGGLE_KEY) + ")"
+                            );
                         }
                     }
 
@@ -685,13 +721,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/key.png")
+                                    .getResource(IMAGES_DIR + "key.png")
                     )
             );
             tabbedPane.addTab("Keybinds", icon, togglePanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/key.png");
+            WARN("Failed to load " + IMAGES_DIR + "key.png");
             tabbedPane.addTab("Keybinds", togglePanel);
         }
     }
@@ -796,13 +832,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/settings.png")
+                                    .getResource(IMAGES_DIR + "settings.png")
                     )
             );
             tabbedPane.addTab("Settings", icon, settingsPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/settings.png");
+            WARN("Failed to load " + IMAGES_DIR + "settings.png");
             tabbedPane.addTab("Settings", settingsPanel);
         }
 
@@ -849,13 +885,13 @@ public class Window extends JFrame{
                     Objects.requireNonNull(
                             Thread.currentThread()
                                     .getContextClassLoader()
-                                    .getResource("images/friends.png")
+                                    .getResource(IMAGES_DIR + "friends.png")
                     )
             );
             tabbedPane.addTab("Friends", icon, friendListPanel);
         } catch (Exception e) {
             e.printStackTrace();
-            WARN("Failed to load images/friends.png");
+            WARN("Failed to load " + IMAGES_DIR + "friends.png");
             tabbedPane.addTab("Friends", friendListPanel);
         }
     }
@@ -922,8 +958,8 @@ public class Window extends JFrame{
         JButton button;
         if (module.getToggleKey() != -1) {
             button = new JButton(
-                module.getName() + " toggle key: " + module.getToggleKey() +
-                        " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+                    module.getName() + " toggle key: " + module.getToggleKey() +
+                            " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
             );
         } else {
             button = new JButton(
@@ -937,12 +973,12 @@ public class Window extends JFrame{
 
             // Content of that popup window (html)
             JLabel msg = new JLabel(
-                "<html>Press a key...<br>" +
-                        "Please note that due to the difference between<br>" +
-                        "VK and GLFW key events, ALT, CTRL and SHIFT<br>" +
-                        "keys do not take into account left / right. Only<br>" +
-                        "the right key is working. So if you choose<br>" +
-                        "the left key, it will register the right one.</html>"
+                    "<html>Press a key...<br>" +
+                            "Please note that due to the difference between<br>" +
+                            "VK and GLFW key events, ALT, CTRL and SHIFT<br>" +
+                            "keys do not take into account left / right. Only<br>" +
+                            "the right key is working. So if you choose<br>" +
+                            "the left key, it will register the right one.</html>"
             );
 
             // Popup layout
@@ -972,8 +1008,8 @@ public class Window extends JFrame{
                             SettingsUtils.setOption(module.getPrefix() + "_toggle_key", Integer.toString(code));
                             // Change the label to show the new key used
                             button.setText(
-                                module.getName() + " toggle key: " + module.getToggleKey() +
-                                " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+                                    module.getName() + " toggle key: " + module.getToggleKey() +
+                                            " (" + keyNameFunc.getKeyName(module.getToggleKey()) + ")"
                             );
                         }
                     }
@@ -1006,8 +1042,7 @@ public class Window extends JFrame{
 
         // Update the toggle key and the HUD
         Window.TOGGLE_KEY = Integer.parseInt(options.get(Window.TOGGLE_KEY_OPTION));
-        Window.TOGGLE_KEY_NAME = "code: " + Window.TOGGLE_KEY;
-        BettercolorsEngine.VERBOSE = Boolean.parseBoolean(options.get(BettercolorsEngine.DEBUG_OPTION));
+        BettercolorsEngine.DEBUG = Boolean.parseBoolean(options.get(BettercolorsEngine.DEBUG_OPTION));
 
         // Tell the user that we loaded the settings file
         INFO( "[+] Loaded \"" + SettingsUtils.SETTINGS_FILENAME + "\"");
@@ -1170,11 +1205,13 @@ public class Window extends JFrame{
             String name = keybindButton.getText();
 
             if (name.startsWith("Gui")) {
-                keybindButton.setText("Gui toggle key: " + Window.TOGGLE_KEY_NAME);
+                keybindButton.setText("Gui toggle key: " + Window.TOGGLE_KEY + "(" + this.keyNameFunc.getKeyName(Window.TOGGLE_KEY) + ")");
             } else {
                 for(Module module : MODULES){
                     if (name.startsWith(module.getName())) {
-                        keybindButton.setText(module.getName() + " toggle key: " + module.getToggleKey());
+                        keybindButton.setText(
+                                module.getName() + " toggle key: " + module.getToggleKey() + "(" + this.keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+                        );
                         break;
                     }
                 }
