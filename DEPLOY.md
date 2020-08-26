@@ -1,0 +1,5 @@
+- Make sure that it compiles `mvn clean compile assembly:single`
+- Check the generated files in target/
+- Update the pom.xml to the new version `mvn versions:set -DnewVersion="x.y.z"`
+- Run `mvn clean deploy`. It will send the artefacts to [Nexus Repository Manager](https://oss.sonatype.org/)
+- Either run `mvn clean deploy -P release` or go to [Nexus Repository Manager](https://oss.sonatype.org/) > Login > Staging Repositories > Click the uploaded repository > Release. The logs can be found in the Activity tab when selecting a repository
