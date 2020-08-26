@@ -70,7 +70,7 @@ public abstract class Option implements Cloneable {
     }
 
     /**
-     * Need this function since ArrayList<Option>.indexOf(String) doesn't work whereas we have redefined the "equals"
+     * Need this function since indexOf(String) doesn't work whereas we have redefined the "equals"
      * function in Option class.
      * @param options the options list
      * @param option_name the option name to find in the list

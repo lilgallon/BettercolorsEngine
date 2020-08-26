@@ -109,6 +109,8 @@ public class Version {
     }
 
     /**
+     * @throws VersionException if an error occured with some useful information
+     *
      * @param mcVersion the Minecraft version ("1.15.2" for example)
      * @return the latest version of the mod for the given Minecraft version
      */

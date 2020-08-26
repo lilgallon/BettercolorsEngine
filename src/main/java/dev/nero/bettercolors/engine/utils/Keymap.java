@@ -27,6 +27,7 @@ public class Keymap {
      * - VK (if glfw is false)
      *
      * @param code java.awt.event.KeyEvent code
+     * @param glfw if true, returns a GLFW key code, otherwise it returns a VK key code
      * @return corresponding org.lwjgl.input.Keyboard, or -1 if undefined, and -2 if not supported
      */
     public static int map(int code, boolean glfw) {

@@ -46,7 +46,7 @@ public abstract class Module {
 
     /**
      * @param name the name.
-     * @param toggleKey the toggle Key (-1 -> none).
+     * @param toggleKey the toggle Key (-1 means none).
      * @param isActivated the initial state.
      * @param symbol the picture name.
      * @param prefix the prefix for console logging and settings.
@@ -61,7 +61,7 @@ public abstract class Module {
     /**
      * @param name the name.
      * @param description the description.
-     * @param toggleKey the toggle Key (-1 -> none).
+     * @param toggleKey the toggle Key (-1 means none).
      * @param isActivated the initial state.
      * @param symbol the picture name.
      * @param prefix the prefix for console logging and settings.
@@ -153,6 +153,8 @@ public abstract class Module {
     /**
      * It updates the options of the module. The options variable can contain ANY options, so it needs to check if the
      * option exists in the current module.
+     *
+     * @param options a map containing the options' names and their values
      */
     public void setOptions(Map<String, String> options){
         if(options == null) return;

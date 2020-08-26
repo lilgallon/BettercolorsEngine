@@ -13,7 +13,7 @@ public class ValueFloatOption extends Option{
     /**
      * /!\ SUPPORTS 2 DECIMAL POINTS /!\
      *
-     * @param prefix prefix of the option (module name for example) -> used to prevent conflict if some modules have
+     * @param prefix prefix of the option (module name for example): used to prevent conflict if some modules have
      *               the same option name.
      * @param name the name.
      * @param val the initial value.
@@ -36,7 +36,7 @@ public class ValueFloatOption extends Option{
     /**
      * /!\ SUPPORTS 2 DECIMAL POINTS /!\
      *
-     * @param prefix prefix of the option (module name for example) -> used to prevent conflict if some modules have
+     * @param prefix prefix of the option (module name for example): used to prevent conflict if some modules have
      *               the same option name.
      * @param name the name.
      * @param description the description.
