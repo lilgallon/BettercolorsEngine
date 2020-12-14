@@ -1,3 +1,15 @@
+## Version 1.1.1
+
+Backwards compatible.
+
+**Additions:**
+- Added a bridge icon
+- Added an experimental option for modules
+
+**Fixes**:
+- Fixed #11: Fixed toggle key display when a module does not have any toggle key set
+- Fixed #12: Fixed synchronization issues with sliders
+
 ## Version 1.1.0
 
 Backwards compatible.

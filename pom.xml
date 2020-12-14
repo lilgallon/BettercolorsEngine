@@ -5,7 +5,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <modelVersion>4.0.0</modelVersion>
   <groupId>dev.nero</groupId>
   <artifactId>bettercolors-engine</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <build>
     <plugins>
       <!-- Build -->
