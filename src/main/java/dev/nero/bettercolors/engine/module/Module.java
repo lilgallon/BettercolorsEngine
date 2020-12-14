@@ -39,6 +39,7 @@ public abstract class Module {
     private final String NAME;
     protected ArrayList<Option> options;
     private final String symbol;
+    private Boolean isExperimental = false;
 
     // Module status
     private int toggleKey;
@@ -56,6 +57,20 @@ public abstract class Module {
     @Deprecated
     protected Module(String name, Integer toggleKey, Boolean isActivated, String symbol, String prefix){
         this(name, "", toggleKey, isActivated, symbol, prefix);
+    }
+
+    /**
+     * @param name the name.
+     * @param description the description.
+     * @param toggleKey the toggle Key (-1 means none).
+     * @param isActivated the initial state.
+     * @param symbol the picture name.
+     * @param prefix the prefix for console logging and settings.
+     * @param experimental true means that it will be displayed differently to show that it's experimental
+     */
+    protected Module(String name, String description, Integer toggleKey, Boolean isActivated, String symbol, String prefix, Boolean experimental){
+        this(name, description, toggleKey, isActivated, symbol, prefix);
+        this.isExperimental = experimental;
     }
 
     /**
@@ -296,4 +311,5 @@ public abstract class Module {
     public ArrayList<Option> getOptions() { return options; }
     public String getSymbol() { return symbol; }
     public String getPrefix() { return PREFIX; }
+    public boolean isExperimental() { return isExperimental; }
 }

@@ -64,7 +64,7 @@ public class Window extends JFrame{
     public final static String TOGGLE_KEY_OPTION = "toggle_key";
     public static int TOGGLE_KEY;
 
-    //
+    // Resources
     public static String IMAGES_DIR = "images/";
     public static String FONTS_DIR = "fonts/";
 
@@ -422,6 +422,11 @@ public class Window extends JFrame{
         for(Module module : MODULES) {
             // We create checkboxes for each module showing if it's turned on or not
             final JCheckBox checkBox = new JCheckBox(module.getClass().getSimpleName());
+
+            if (module.isExperimental()) {
+                checkBox.setForeground(new Color(150, 70, 0));
+                checkBox.setText(checkBox.getText() + " (experimental)");
+            }
 
             // Init it according to the module's activation: turned on or off?
             checkBox.setSelected(module.isActivated());
@@ -1209,9 +1214,13 @@ public class Window extends JFrame{
             } else {
                 for(Module module : MODULES){
                     if (name.startsWith(module.getName())) {
-                        keybindButton.setText(
-                                module.getName() + " toggle key: " + module.getToggleKey() + "(" + this.keyNameFunc.getKeyName(module.getToggleKey()) + ")"
-                        );
+                        if (module.getToggleKey() != -1) {
+                            keybindButton.setText(
+                                    module.getName() + " toggle key: " + module.getToggleKey() + "(" + this.keyNameFunc.getKeyName(module.getToggleKey()) + ")"
+                            );
+                        } else {
+                            keybindButton.setText(module.getName() + " toggle key: none");
+                        }
                         break;
                     }
                 }
@@ -1248,8 +1257,8 @@ public class Window extends JFrame{
                         val = ((ValueOption) valueOption).getVal();
                     }
 
-                    if(entry.getKey().getText().contains(valueOption.getName())){
-                        entry.getKey().setText(valueOption.getName() + " [" + val + "]");
+                    if(entry.getKey().getText().contains(valueOption.getName().replace("_", " "))){
+                        entry.getKey().setText(valueOption.getName().replace("_", " ") + " [" + val + "]");
                         entry.getValue().setValue(decimal ? (int) (val * 100f) : (int) val);
                         break; // :(
                     }
