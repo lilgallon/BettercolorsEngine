@@ -37,13 +37,13 @@ Maven:
 <dependency>
   <groupId>dev.nero</groupId>
   <artifactId>bettercolors-engine</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 
 Gradle:
 ```gradle
-implementation 'dev.nero:bettercolors-engine:1.1.0'
+implementation 'dev.nero:bettercolors-engine:1.1.1'
 ```
 
 If you are building a minecraft mod, then add those lines to your build.gradle:
