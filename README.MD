@@ -61,7 +61,7 @@ dependencies {
     // ... your stuff if you have something already
 
     // The library with the inJar configuration that we created previously
-    inJar "io.github.vincenzopalazzo:material-ui-swing:1.1.1"
+    inJar "dev.nero:bettercolors-engine:1.1.1"
 }
 
 jar {
